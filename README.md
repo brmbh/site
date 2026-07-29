@@ -13,11 +13,11 @@ deploy.sh       rsync to all-inkl
 
 ## Deploying
 
-Hosted on **all-inkl**, under the `brombach.de` vhost:
+Hosted on **all-inkl**, on its own vhost:
 
 ```
-https://brombach.de/wordpress-suite/
-→ /www/htdocs/w00bc6c9/brombach.de/wordpress-suite/
+https://wordpress.brombach.de/
+→ /www/htdocs/w00bc6c9/wordpress.brombach.de/
 ```
 
 ```bash
@@ -25,20 +25,23 @@ https://brombach.de/wordpress-suite/
 ./deploy.sh --live   # upload
 ```
 
-rsync over the `allinkl` SSH alias. The script refuses to run if the target does not end in
-`/wordpress-suite`, because it uses `--delete` and the vhost root holds the personal site.
+rsync over the `allinkl` SSH alias. `--delete` is destructive, so the script refuses to run
+unless the target is the `wordpress.brombach.de` vhost.
+
+### Why its own vhost
+
+It used to live at `brombach.de/wordpress-suite/` — a subdirectory of a vhost deployed from a
+different repo with `rsync --delete`. Every deploy of that site silently deleted this one (live
+2026-07-24, gone by 2026-07-29), and the URL kept returning **HTTP 200** because the parent
+site's `index.html` was served as a fallback. Nothing looked broken.
 
 ### Verify content, not status codes
 
-`brombach.de/wordpress-suite/` returns **HTTP 200 even when nothing is deployed** — the vhost
-falls back to the `brombach.de` homepage. It was recorded as live for weeks on that basis while
-the directory did not exist.
-
 ```bash
-curl -sS https://brombach.de/wordpress-suite/ | grep -o '<title>[^<]*</title>'
-# brmbh …          → deployed
-# Jan Brombach     → NOT deployed, you are seeing the fallback
+curl -sS https://wordpress.brombach.de/ | grep -o '<title>[^<]*</title>'
 ```
+
+A 200 alone proves nothing on shared hosting — check what came back.
 
 ## Keeping copy honest
 
