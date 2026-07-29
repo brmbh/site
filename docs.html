@@ -82,19 +82,19 @@
 
         <h2 id="install">Installation</h2>
         <p>You don't install brmbh globally — you run it on demand to scaffold a project:</p>
-        <pre data-copy="npm create brmbh@latest my-site"><span class="c"># scaffold a new theme into ./my-site</span>
-npm create brmbh@latest my-site
+        <pre data-copy="npx @brmbh/cli create my-site"><span class="c"># scaffold a new theme into ./my-site</span>
+npx @brmbh/cli create my-site
 
 <span class="c"># equivalent</span>
-npx create-brmbh my-site
+npx @brmbh/cli create my-site
 npx @brmbh/cli create my-site</pre>
         <p>To use the lifecycle commands inside a project, run them through <code>npx</code> or add a script:</p>
         <pre data-copy="npx @brmbh/cli doctor">npx @brmbh/cli doctor
 npx @brmbh/cli add block hero</pre>
 
         <h2 id="quickstart">Quick start</h2>
-        <pre data-copy="cd wp-content/themes&#10;npx create-brmbh my-site"><span class="k">1.</span> cd wp-content/themes
-<span class="k">2.</span> npx create-brmbh my-site     <span class="c"># clone, install, build, skills, activate</span>
+        <pre data-copy="cd wp-content/themes&#10;npx @brmbh/cli create my-site"><span class="k">1.</span> cd wp-content/themes
+<span class="k">2.</span> npx @brmbh/cli create my-site     <span class="c"># clone, install, build, skills, activate</span>
 <span class="k">3.</span> <span class="c"># open your editor + Claude/Cursor; the skills are ready</span>
 <span class="k">4.</span> npx @brmbh/cli deploy staging</pre>
         <p>
@@ -107,7 +107,7 @@ npx @brmbh/cli add block hero</pre>
 
         <h2 id="create">create <span class="badge badge--l3">L3</span></h2>
         <p>Scaffold a new brmbh theme into a folder: materialize the theme, install dependencies, build assets, wire the agent skills, check for SCF, and activate the theme when running inside a WordPress install.</p>
-        <pre data-copy="brmbh create [name] [flags]">brmbh create [name] [flags]
+        <pre data-copy="npx @brmbh/cli create [name] [flags]">npx @brmbh/cli create [name] [flags]
 create-brmbh [name] [flags]</pre>
         <table>
           <thead><tr><th>Flag</th><th>Description</th></tr></thead>
@@ -119,11 +119,11 @@ create-brmbh [name] [flags]</pre>
             <tr><td><code>--force</code></td><td>Scaffold into a non-empty folder.</td></tr>
           </tbody>
         </table>
-        <pre data-copy="brmbh create my-site"><span class="c"># standard</span>
-brmbh create my-site
+        <pre data-copy="npx @brmbh/cli create my-site"><span class="c"># standard</span>
+npx @brmbh/cli create my-site
 
 <span class="c"># offline, from a local checkout, no install</span>
-brmbh create demo --from ../brmbh-agentic-wp-suite --skip-install</pre>
+npx @brmbh/cli create demo --from ../wordpress --skip-install</pre>
         <div class="callout">
           <strong>Level L3.</strong> The JSON envelope includes a <code>next</code> array — a literal, ordered
           list of follow-up steps an agent can execute verbatim (e.g. install SCF, activate the theme).
