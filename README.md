@@ -8,12 +8,37 @@ Static HTML/CSS/JS. No build step, no dependencies — open `index.html` to work
 index.html      the landing page
 docs.html       command reference
 assets/         styles.css, main.js, logos/
-vercel.json     headers + clean URLs
+deploy.sh       rsync to all-inkl
 ```
 
 ## Deploying
 
-Push to `main`. Vercel builds and deploys automatically; branches get preview URLs.
+Hosted on **all-inkl**, under the `brombach.de` vhost:
+
+```
+https://brombach.de/wordpress-suite/
+→ /www/htdocs/w00bc6c9/brombach.de/wordpress-suite/
+```
+
+```bash
+./deploy.sh          # dry run — shows the diff, writes nothing
+./deploy.sh --live   # upload
+```
+
+rsync over the `allinkl` SSH alias. The script refuses to run if the target does not end in
+`/wordpress-suite`, because it uses `--delete` and the vhost root holds the personal site.
+
+### Verify content, not status codes
+
+`brombach.de/wordpress-suite/` returns **HTTP 200 even when nothing is deployed** — the vhost
+falls back to the `brombach.de` homepage. It was recorded as live for weeks on that basis while
+the directory did not exist.
+
+```bash
+curl -sS https://brombach.de/wordpress-suite/ | grep -o '<title>[^<]*</title>'
+# brmbh …          → deployed
+# Jan Brombach     → NOT deployed, you are seeing the fallback
+```
 
 ## Keeping copy honest
 
