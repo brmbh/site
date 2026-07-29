@@ -6,6 +6,13 @@
 #
 # Target is a subdirectory of the brombach.de vhost. Deliberately NOT the vhost
 # root: rsync --delete there would wipe the personal site.
+#
+# ⚠️ This directory lives inside a vhost deployed from a DIFFERENT repo. The
+# brombach.de deploy mirrors its dist/ here with --delete, which already wiped
+# this page once (live 2026-07-24, gone by 2026-07-29). That repo now excludes
+# wordpress-suite/ — if that exclude is ever dropped, this page disappears
+# again and the URL still returns 200 because the vhost falls back to
+# brombach.de's index.html. The durable fix is a vhost of its own.
 set -euo pipefail
 
 SSH_HOST="allinkl"
@@ -21,7 +28,11 @@ DRY="--dry-run"
 [[ "${1:-}" == "--live" ]] && DRY=""
 [[ -z "$DRY" ]] || echo "DRY RUN — pass --live to upload for real"
 
-ssh "$SSH_HOST" "mkdir -p '$REMOTE_DIR'"
+# Only create the target for a real deploy — a dry run must write nothing,
+# not even an empty directory.
+if [[ -z "$DRY" ]]; then
+  ssh "$SSH_HOST" "mkdir -p '$REMOTE_DIR'"
+fi
 
 rsync -avz --delete $DRY \
   --exclude '.git' --exclude '.github' \
