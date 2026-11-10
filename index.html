@@ -4,610 +4,323 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>brmbh — the agentic WordPress suite</title>
-  <meta name="description" content="A modern Bootstrap 5 + Gutenberg + ACF starter theme with agent skills baked in. One command scaffolds it — then your AI agent builds the sections." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;700;900&family=Atkinson+Hyperlegible:wght@400;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/styles.css" />
+  <meta name="description" content="A Bootstrap 5 + Gutenberg + SCF starter theme with agent skills baked in. One command scaffolds it — then your AI agent builds the blocks." />
+  <link rel="preload" href="assets/fonts/HelveticaNeueLTPro-Bd.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/brand/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png" />
+  <meta name="theme-color" content="#e6e5df" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://wordpress.brombach.de/" />
+  <meta property="og:title" content="brmbh — WordPress run by your Agent." />
+  <meta property="og:description" content="The agentic suite that runs WordPress end to end. Your agent builds the blocks, you own every line." />
+  <meta property="og:image" content="https://wordpress.brombach.de/assets/brand/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="assets/v1.css" />
 </head>
 <body>
 
-  <div class="announce">
-    <span class="spark" aria-hidden="true">✦</span> brmbh v0.1 — open source &amp; building in public
-    <a href="https://github.com/brmbh/wordpress" target="_blank" rel="noopener">Star on GitHub →</a>
-  </div>
-  <div class="page-frame" aria-hidden="true"></div>
-  <div class="rail-comets" aria-hidden="true"><span class="comet comet--down"></span><span class="comet comet--up"></span></div>
+  <!-- squigglevision: noise frames for the plane boil (css: --plane / ::before).
+       sq-* = constant calm boil on chosen planes; sqh-* = hover boil on buttons, never on active states.
+       Not display:none — Firefox drops filters from hidden SVGs. -->
+  <svg class="sq-defs" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="sq-1"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="0"/><feDisplacementMap in="SourceGraphic" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+      <filter id="sq-2"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="1"/><feDisplacementMap in="SourceGraphic" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+      <filter id="sq-3"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="2"/><feDisplacementMap in="SourceGraphic" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+      <filter id="sq-4"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="3"/><feDisplacementMap in="SourceGraphic" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+      <filter id="sq-5"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2" xChannelSelector="R" yChannelSelector="G"/></filter>
+      <filter id="sqh-1"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="5"/><feDisplacementMap in="SourceGraphic" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+      <filter id="sqh-2"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="6"/><feDisplacementMap in="SourceGraphic" scale="7" xChannelSelector="R" yChannelSelector="G"/></filter>
+      <filter id="sqh-3"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+      <filter id="sqh-4"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="8"/><feDisplacementMap in="SourceGraphic" scale="7" xChannelSelector="R" yChannelSelector="G"/></filter>
+      <filter id="sqh-5"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="9"/><feDisplacementMap in="SourceGraphic" scale="5" xChannelSelector="R" yChannelSelector="G"/></filter>
+    </defs>
+  </svg>
 
-  <!-- header -->
-  <header class="site-header">
-    <div class="wrap site-header__inner">
-      <a class="brand" href="index.html" aria-label="brmbh home">
-        <span class="brand__mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
-        brmbh
-      </a>
-      <button class="nav-toggle" aria-label="Toggle menu" data-nav-toggle>☰</button>
-      <nav class="nav" data-nav>
-        <a href="#features">Features</a>
-        <a href="#commands">Commands</a>
-        <a href="#agents">For agents</a>
-        <a href="#compare">Compare</a>
+<!-- torn corner: the page paper ripped off at the top left, white beneath; runs up behind the navbar (tack #51) -->
+  <svg class="tear" viewBox="0 0 642 312" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="tear-fiber" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="1.2" xChannelSelector="R" yChannelSelector="G"/></filter>
+    </defs>
+    <path d="M-2,-2 L644.0,-2 L642.0,0.0 L640.7,0.6 L639.4,2.4 L636.9,0.8 L635.3,3.0 L632.8,3.2 L630.4,4.0 L628.0,5.3 L625.3,6.3 L622.6,7.1 L620.0,9.0 L617.1,9.6 L614.4,11.3 L611.8,12.9 L609.1,14.1 L606.5,15.5 L603.5,15.4 L601.3,17.2 L599.0,18.1 L596.3,18.3 L593.8,19.0 L591.3,19.8 L588.7,20.4 L585.8,20.4 L583.2,21.2 L580.5,21.6 L577.0,20.7 L574.8,22.2 L572.1,22.8 L568.3,21.4 L566.3,23.3 L563.6,23.8 L561.1,24.8 L558.4,25.3 L555.4,25.3 L553.4,27.0 L550.9,27.9 L548.1,28.3 L546.1,29.7 L543.8,30.9 L541.4,31.6 L539.3,32.9 L537.6,34.7 L535.3,35.7 L533.7,37.7 L531.5,39.1 L529.4,40.6 L527.2,42.0 L525.2,43.9 L523.2,45.8 L521.2,48.0 L519.0,50.1 L516.3,51.8 L514.6,53.2 L512.9,54.8 L511.5,56.8 L509.1,57.7 L507.2,59.2 L505.5,61.1 L503.9,63.0 L502.3,65.1 L500.2,66.6 L498.3,68.4 L496.5,70.4 L494.5,72.1 L492.8,74.2 L491.4,76.7 L489.7,78.8 L488.5,81.5 L487.0,83.8 L485.1,85.7 L484.1,88.7 L482.5,90.8 L481.4,93.6 L480.4,96.4 L479.1,99.0 L477.4,101.0 L476.7,104.1 L475.4,106.5 L473.9,108.6 L472.7,111.1 L471.3,113.4 L470.2,116.0 L468.3,117.7 L466.3,119.3 L464.7,121.4 L462.9,123.4 L461.6,125.8 L459.2,127.0 L456.9,128.5 L456.4,131.7 L453.3,132.2 L451.1,133.7 L449.8,136.2 L446.9,136.8 L444.1,137.5 L442.2,139.3 L439.9,140.5 L437.5,141.6 L435.7,143.4 L433.3,144.4 L431.5,146.2 L429.0,147.0 L427.3,149.4 L424.6,150.3 L422.8,152.6 L420.2,153.5 L418.1,155.3 L415.4,156.0 L413.9,158.4 L411.4,159.5 L408.8,160.1 L407.6,163.2 L405.2,164.2 L403.1,165.6 L401.0,167.1 L398.5,167.8 L396.4,169.3 L394.6,171.1 L392.1,171.8 L389.5,172.4 L387.1,173.4 L384.8,174.3 L382.6,175.6 L380.0,176.3 L377.7,177.4 L375.3,178.4 L373.1,179.7 L370.3,180.1 L369.0,182.9 L366.0,182.9 L363.2,183.1 L361.3,184.9 L358.8,185.7 L356.7,187.2 L354.6,188.7 L352.1,189.4 L350.2,191.1 L347.5,191.7 L345.9,194.0 L343.2,194.5 L341.2,196.2 L339.5,198.4 L337.0,199.2 L334.9,200.8 L332.9,202.6 L330.2,203.3 L328.2,204.7 L326.2,206.1 L324.5,208.0 L322.2,209.1 L320.1,210.3 L317.7,211.3 L315.4,212.5 L312.4,212.8 L310.1,213.9 L307.6,214.7 L304.9,215.5 L302.5,216.6 L299.7,217.1 L297.2,218.0 L295.1,219.4 L292.4,220.0 L290.3,221.3 L287.5,221.6 L285.6,223.3 L282.7,223.5 L281.0,225.1 L278.6,225.8 L276.7,227.3 L274.5,228.1 L272.4,229.7 L270.5,231.4 L268.4,232.9 L266.3,234.4 L264.7,236.5 L263.1,238.5 L260.8,239.5 L259.6,242.2 L257.6,243.7 L255.8,245.4 L254.0,247.1 L252.5,249.4 L250.1,250.1 L248.4,252.1 L246.6,254.0 L244.6,255.5 L243.0,257.9 L240.9,259.3 L238.7,260.7 L236.6,262.4 L234.4,263.9 L231.9,265.1 L230.0,266.6 L228.0,267.9 L225.9,269.2 L224.4,271.5 L222.0,272.2 L220.3,274.5 L217.9,275.4 L215.8,276.9 L213.9,279.0 L212.1,281.3 L209.9,282.7 L207.6,284.1 L205.8,286.3 L203.6,287.8 L201.6,289.9 L199.7,292.2 L197.3,293.2 L195.4,295.6 L193.3,297.4 L191.3,299.5 L188.8,300.2 L187.2,303.4 L184.4,303.3 L181.9,303.9 L179.6,305.0 L177.4,306.5 L174.7,307.4 L172.0,308.1 L169.1,307.7 L166.6,308.9 L163.8,309.1 L161.1,309.5 L158.3,309.0 L155.6,308.9 L153.1,309.9 L150.4,309.7 L147.6,308.8 L145.2,309.6 L142.5,309.3 L139.9,308.8 L137.4,308.8 L134.8,308.7 L132.3,308.8 L129.9,309.7 L127.3,309.3 L124.8,309.6 L122.4,309.9 L119.8,309.6 L117.5,311.2 L114.8,311.3 L112.2,311.9 L109.6,312.1 L107.0,313.1 L104.4,313.5 L101.8,313.5 L99.2,314.4 L96.6,314.0 L94.0,313.6 L91.4,314.2 L88.8,313.8 L86.2,313.3 L83.6,314.2 L81.0,313.7 L78.4,312.7 L75.8,313.3 L73.2,312.2 L70.6,311.2 L67.9,311.6 L65.3,310.4 L62.7,311.7 L60.0,308.3 L57.5,309.2 L54.9,308.6 L52.2,309.7 L49.5,308.7 L46.7,307.3 L43.8,307.2 L40.9,307.4 L38.0,307.3 L35.1,306.9 L32.2,307.2 L29.3,307.5 L26.5,307.4 L23.7,307.3 L20.9,307.2 L18.3,307.6 L15.7,307.4 L13.2,306.9 L10.9,306.9 L8.6,307.6 L6.6,307.8 L4.7,307.2 L2.9,307.5 L1.4,308.1 L0.0,308.0 L-2,308.0 Z" fill="var(--torn)"/>
+    <path d="M642.0,0.0 L640.7,0.6 L639.4,2.4 L636.9,0.8 L635.3,3.0 L632.8,3.2 L630.4,4.0 L628.0,5.3 L625.3,6.3 L622.6,7.1 L620.0,9.0 L617.1,9.6 L614.4,11.3 L611.8,12.9 L609.1,14.1 L606.5,15.5 L603.5,15.4 L601.3,17.2 L599.0,18.1 L596.3,18.3 L593.8,19.0 L591.3,19.8 L588.7,20.4 L585.8,20.4 L583.2,21.2 L580.5,21.6 L577.0,20.7 L574.8,22.2 L572.1,22.8 L568.3,21.4 L566.3,23.3 L563.6,23.8 L561.1,24.8 L558.4,25.3 L555.4,25.3 L553.4,27.0 L550.9,27.9 L548.1,28.3 L546.1,29.7 L543.8,30.9 L541.4,31.6 L539.3,32.9 L537.6,34.7 L535.3,35.7 L533.7,37.7 L531.5,39.1 L529.4,40.6 L527.2,42.0 L525.2,43.9 L523.2,45.8 L521.2,48.0 L519.0,50.1 L516.3,51.8 L514.6,53.2 L512.9,54.8 L511.5,56.8 L509.1,57.7 L507.2,59.2 L505.5,61.1 L503.9,63.0 L502.3,65.1 L500.2,66.6 L498.3,68.4 L496.5,70.4 L494.5,72.1 L492.8,74.2 L491.4,76.7 L489.7,78.8 L488.5,81.5 L487.0,83.8 L485.1,85.7 L484.1,88.7 L482.5,90.8 L481.4,93.6 L480.4,96.4 L479.1,99.0 L477.4,101.0 L476.7,104.1 L475.4,106.5 L473.9,108.6 L472.7,111.1 L471.3,113.4 L470.2,116.0 L468.3,117.7 L466.3,119.3 L464.7,121.4 L462.9,123.4 L461.6,125.8 L459.2,127.0 L456.9,128.5 L456.4,131.7 L453.3,132.2 L451.1,133.7 L449.8,136.2 L446.9,136.8 L444.1,137.5 L442.2,139.3 L439.9,140.5 L437.5,141.6 L435.7,143.4 L433.3,144.4 L431.5,146.2 L429.0,147.0 L427.3,149.4 L424.6,150.3 L422.8,152.6 L420.2,153.5 L418.1,155.3 L415.4,156.0 L413.9,158.4 L411.4,159.5 L408.8,160.1 L407.6,163.2 L405.2,164.2 L403.1,165.6 L401.0,167.1 L398.5,167.8 L396.4,169.3 L394.6,171.1 L392.1,171.8 L389.5,172.4 L387.1,173.4 L384.8,174.3 L382.6,175.6 L380.0,176.3 L377.7,177.4 L375.3,178.4 L373.1,179.7 L370.3,180.1 L369.0,182.9 L366.0,182.9 L363.2,183.1 L361.3,184.9 L358.8,185.7 L356.7,187.2 L354.6,188.7 L352.1,189.4 L350.2,191.1 L347.5,191.7 L345.9,194.0 L343.2,194.5 L341.2,196.2 L339.5,198.4 L337.0,199.2 L334.9,200.8 L332.9,202.6 L330.2,203.3 L328.2,204.7 L326.2,206.1 L324.5,208.0 L322.2,209.1 L320.1,210.3 L317.7,211.3 L315.4,212.5 L312.4,212.8 L310.1,213.9 L307.6,214.7 L304.9,215.5 L302.5,216.6 L299.7,217.1 L297.2,218.0 L295.1,219.4 L292.4,220.0 L290.3,221.3 L287.5,221.6 L285.6,223.3 L282.7,223.5 L281.0,225.1 L278.6,225.8 L276.7,227.3 L274.5,228.1 L272.4,229.7 L270.5,231.4 L268.4,232.9 L266.3,234.4 L264.7,236.5 L263.1,238.5 L260.8,239.5 L259.6,242.2 L257.6,243.7 L255.8,245.4 L254.0,247.1 L252.5,249.4 L250.1,250.1 L248.4,252.1 L246.6,254.0 L244.6,255.5 L243.0,257.9 L240.9,259.3 L238.7,260.7 L236.6,262.4 L234.4,263.9 L231.9,265.1 L230.0,266.6 L228.0,267.9 L225.9,269.2 L224.4,271.5 L222.0,272.2 L220.3,274.5 L217.9,275.4 L215.8,276.9 L213.9,279.0 L212.1,281.3 L209.9,282.7 L207.6,284.1 L205.8,286.3 L203.6,287.8 L201.6,289.9 L199.7,292.2 L197.3,293.2 L195.4,295.6 L193.3,297.4 L191.3,299.5 L188.8,300.2 L187.2,303.4 L184.4,303.3 L181.9,303.9 L179.6,305.0 L177.4,306.5 L174.7,307.4 L172.0,308.1 L169.1,307.7 L166.6,308.9 L163.8,309.1 L161.1,309.5 L158.3,309.0 L155.6,308.9 L153.1,309.9 L150.4,309.7 L147.6,308.8 L145.2,309.6 L142.5,309.3 L139.9,308.8 L137.4,308.8 L134.8,308.7 L132.3,308.8 L129.9,309.7 L127.3,309.3 L124.8,309.6 L122.4,309.9 L119.8,309.6 L117.5,311.2 L114.8,311.3 L112.2,311.9 L109.6,312.1 L107.0,313.1 L104.4,313.5 L101.8,313.5 L99.2,314.4 L96.6,314.0 L94.0,313.6 L91.4,314.2 L88.8,313.8 L86.2,313.3 L83.6,314.2 L81.0,313.7 L78.4,312.7 L75.8,313.3 L73.2,312.2 L70.6,311.2 L67.9,311.6 L65.3,310.4 L62.7,311.7 L60.0,308.3 L57.5,309.2 L54.9,308.6 L52.2,309.7 L49.5,308.7 L46.7,307.3 L43.8,307.2 L40.9,307.4 L38.0,307.3 L35.1,306.9 L32.2,307.2 L29.3,307.5 L26.5,307.4 L23.7,307.3 L20.9,307.2 L18.3,307.6 L15.7,307.4 L13.2,306.9 L10.9,306.9 L8.6,307.6 L6.6,307.8 L4.7,307.2 L2.9,307.5 L1.4,308.1 L0.0,308.0" fill="none" stroke="var(--torn)" stroke-width="1" vector-effect="non-scaling-stroke" filter="url(#tear-fiber)"/>
+  </svg>
+
+  <header class="top">
+    <div class="wrap top__inner">
+      <a class="brand" href="./" aria-label="brmbh home"><span class="brand__mark" data-mark></span><span class="brand__word">brmbh</span></a>
+      <nav class="nav" aria-label="Main">
+        <a href="#pieces">Pieces</a>
+        <a href="#how">How</a>
         <a href="docs.html">Docs</a>
-        <a class="btn btn--ghost" href="https://github.com/brmbh/wordpress" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn btn--quiet" href="https://github.com/brmbh/wordpress" target="_blank" rel="noopener">GitHub ↗</a>
       </nav>
     </div>
   </header>
 
-  <!-- hero -->
-  <section class="hero section--flush">
-    <div class="wrap">
-      <div class="hero__grid">
-        <div data-reveal>
-          <h1 class="display hero__title">
-            The <span class="accent">agentic suite</span> that runs WordPress end to end.
-          </h1>
+  <!-- hero: headline, one line, command — the tray carries the rest -->
+  <section class="band hero-band">
+    <div class="wrap hero">
+      <div class="hero__copy">
+        <h1>WordPress run by your Agent.</h1>
+        <p class="lead">The agentic suite that runs WordPress end to end. Your agent builds the blocks, you own every line.</p>
 
-          <div class="hero-toggle" data-hero-toggle>
-            <button class="hero-toggle__btn" data-audience="humans" type="button">For humans</button>
-            <button class="hero-toggle__btn hero-toggle__btn--active" data-audience="agents" type="button">For agents</button>
-          </div>
+        <div class="aud" role="tablist" aria-label="Install for">
+          <button class="aud__btn" role="tab" data-aud="humans" aria-selected="false">For humans</button>
+          <button class="aud__btn is-on" role="tab" data-aud="agents" aria-selected="true">For agents</button>
+        </div>
+        <div class="cmd" data-panel-aud="agents" data-copy="npx skills add brmbh/wordpress">
+          <code><span class="dim">$</span> npx skills add brmbh/wordpress</code><button class="cmd__copy" type="button">Copy</button>
+        </div>
+        <div class="cmd" data-panel-aud="humans" data-copy="npx @brmbh/cli create my-theme" hidden>
+          <code><span class="dim">$</span> npx @brmbh/cli create my-theme</code><button class="cmd__copy" type="button">Copy</button>
+        </div>
+        <div class="agents-row">
+          <img src="assets/logos/claude.svg" alt="Claude Code" title="Claude Code" width="20" height="20">
+          <img src="assets/logos/cursor.svg" alt="Cursor" title="Cursor" width="20" height="20">
+          <img src="assets/logos/copilot.svg" data-mono alt="GitHub Copilot" title="GitHub Copilot" width="20" height="20">
+          <img src="assets/logos/windsurf.svg" data-mono alt="Windsurf" title="Windsurf" width="20" height="20">
+          <img src="assets/logos/vscode.svg" alt="VS Code" title="VS Code" width="20" height="20">
+          <span class="mono">+30 agents</span>
+        </div>
+      </div>
 
-          <div data-hero-panel="humans" hidden>
-            <div class="cmd" data-copy="npx @brmbh/cli create my-theme">
-              <code><span class="prompt">$</span>npx @brmbh/cli create my-theme</code>
-              <button class="copy" type="button">Copy</button>
-            </div>
-            <p class="hero__note dim mono">MIT CLI · GPL-2.0 theme · Node ≥ 18 · zero runtime deps</p>
-          </div>
-
-          <div data-hero-panel="agents">
-            <div class="cmd" data-copy="npx skills add brmbh/wordpress">
-              <code><span class="prompt">$</span>npx skills add brmbh/wordpress</code>
-              <button class="copy" type="button">Copy</button>
-            </div>
-            <div class="agent-logos">
-              <img src="assets/logos/claude.svg" alt="Claude Code" title="Claude Code" height="20" width="20">
-              <img src="assets/logos/cursor.svg" alt="Cursor" title="Cursor" height="20" width="20">
-              <img src="assets/logos/copilot.svg" alt="GitHub Copilot" title="GitHub Copilot" height="20" width="20">
-              <img src="assets/logos/windsurf.svg" alt="Windsurf" title="Windsurf" height="20" width="20">
-              <img src="assets/logos/vscode.svg" alt="VS Code" title="VS Code" height="20" width="20">
-              <span class="agent-logos__more dim mono">+30 agents</span>
+      <div class="hero__stage">
+        <div class="hero__tray">
+          <canvas id="hero" aria-label="A tray with four slots; each piece is one part of the suite"></canvas>
+          <div class="ask">
+            <span class="mono">Ask your agent</span>
+            <div class="ask__bar">
+              <span class="ask__mk"></span>
+              <span class="ask__text" data-typewriter>install the brmbh WordPress skill</span><span class="ask__caret" aria-hidden="true"></span>
             </div>
           </div>
         </div>
-
-        <div class="hero__media" data-reveal>
-          <div class="browser-wrap">
-            <div class="browser">
-              <div class="browser__bar">
-                <span class="browser__dot browser__dot--r"></span>
-                <span class="browser__dot browser__dot--y"></span>
-                <span class="browser__dot browser__dot--g"></span>
-                <span class="browser__addr"><span class="spark" aria-hidden="true">✦</span> your AI editor</span>
-              </div>
-              <div class="browser__body">
-                <span class="agent-prompt__label mono">Then just ask —</span>
-                <div class="agent-prompt__bar">
-                  <span class="agent-prompt__spark" aria-hidden="true">✦</span>
-                  <span class="agent-prompt__text" data-typewriter='["create a hero block from this Figma frame","add a speaker post type","write the scroll animation for the gallery","pull the production database","deploy to staging"]'>create a hero block from this Figma frame</span>
-                  <span class="agent-prompt__caret" aria-hidden="true"></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="tray-keys" role="tablist" aria-label="Pieces" data-keys></div>
       </div>
     </div>
   </section>
 
-  <!-- value prop / scrollytelling -->
-  <section class="section scrolly-section" id="why">
+  <!-- features: four pieces in columns; on scroll they fly into the tray, then each part gets its step -->
+  <section class="band band--2 intro" id="pieces">
     <div class="wrap">
-      <span class="eyebrow eyebrow--triangle eyebrow--yellow" data-reveal>How it works</span>
-      <h2 class="h2" style="margin:1rem 0 0;max-width:24ch" data-reveal>
-        You describe it. The agent builds it. <span class="accent">You own every line.</span>
-      </h2>
-      <p class="lead" style="margin:1.5rem 0 0;max-width:48ch" data-reveal>
-        Teach your agent the brmbh workflow once. After that you describe what you want — it writes the code, in plain WordPress files that are yours to edit and ship.
-      </p>
-    </div>
-    <div class="scrolly-track" id="scrolly-track">
-      <div class="scrolly-pin">
-        <div class="scrolly-inner wrap">
-
-          <!-- left: narrative steps -->
-          <div class="scrolly-steps">
-            <div class="scrolly-step" data-step="1">
-              <span class="scrolly-step__num">01</span>
-              <h3 class="scrolly-step__title">Add the agent skills</h3>
-              <p class="scrolly-step__body">One command and your agent knows the full brmbh workflow — scaffold, blocks, deploy, DB sync. Works on Claude Code, Cursor, Windsurf, and 30+ others.</p>
-            </div>
-            <div class="scrolly-step" data-step="2">
-              <span class="scrolly-step__num">02</span>
-              <h3 class="scrolly-step__title">Your agent scaffolds</h3>
-              <p class="scrolly-step__body">Hand your agent the project name. It clones the theme, installs dependencies, builds assets, activates it in WordPress, and wires its own skills into the repo.</p>
-            </div>
-            <div class="scrolly-step" data-step="3">
-              <span class="scrolly-step__num">03</span>
-              <h3 class="scrolly-step__title">Build, block by block</h3>
-              <p class="scrolly-step__body">Every block is one conversation. Point at a Figma frame; the agent writes the four files, compiles the styles, and registers the block. You review and ship.</p>
-            </div>
-          </div>
-
-          <!-- right: IDE -->
-          <div class="scrolly-visual">
-            <div class="ide">
-              <div class="ide__bar">
-                <span class="terminal__dot terminal__dot--r"></span>
-                <span class="terminal__dot terminal__dot--y"></span>
-                <span class="terminal__dot terminal__dot--g"></span>
-                <span class="ide__title" id="ide-title">npx skills add</span>
-              </div>
-              <div class="ide__main">
-                <!-- file tree: the spine. empty → full across the journey -->
-                <div class="ide__explorer">
-                  <div class="ft">
-                    <div class="ft-row ft-folder"><span class="ft-chevron">▾</span><span class="ft-name">themes</span></div>
-                    <div class="ft-children">
-                      <div class="ft-row ft-folder build-item"><span class="ft-chevron">▾</span><span class="ft-name">my-site</span></div>
-                      <div class="ft-children">
-                        <div class="ft-row ft-file ft--css build-item"><span class="ft-name">style.css</span></div>
-                        <div class="ft-row ft-file ft--php build-item"><span class="ft-name">functions.php</span></div>
-                        <div class="ft-row ft-file ft--php build-item"><span class="ft-name">front-page.php</span></div>
-                        <div class="ft-row ft-folder build-item"><span class="ft-chevron">▾</span><span class="ft-name">my-acf-blocks</span></div>
-                        <div class="ft-children">
-                          <div class="ft-row ft-file ft--php build-item"><span class="ft-name">loader.php</span></div>
-                          <div class="ft-row ft-folder build-item step3-highlight"><span class="ft-chevron">▾</span><span class="ft-name">hero</span><span class="ft-tag">new</span></div>
-                          <div class="ft-children">
-                            <div class="ft-row ft-file ft--json build-item step3-highlight"><span class="ft-name">block.json</span></div>
-                            <div class="ft-row ft-file ft--php build-item step3-highlight"><span class="ft-name">fields.php</span></div>
-                            <div class="ft-row ft-file ft--php build-item step3-highlight"><span class="ft-name">template.php</span></div>
-                            <div class="ft-row ft-file ft--scss build-item step3-highlight"><span class="ft-name">_style.scss</span></div>
-                          </div>
-                        </div>
-                        <div class="ft-row ft-folder build-item"><span class="ft-chevron">▾</span><span class="ft-name">AGENTS</span></div>
-                        <div class="ft-children">
-                          <div class="ft-row ft-file ft--md build-item"><span class="ft-name">create-block.md</span></div>
-                          <div class="ft-row ft-file ft--md build-item"><span class="ft-name">deploy.md</span></div>
-                        </div>
-                        <div class="ft-row ft-file ft--json build-item"><span class="ft-name">package.json</span></div>
-                        <div class="ft-row ft-file ft--json build-item"><span class="ft-name">theme.json</span></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- stage: morphs per step -->
-                <div class="ide__stage">
-                  <!-- Scene 1: install the skill -->
-                  <div class="scene is-active" data-scene="1">
-                    <span class="scene__cap">Run once in your terminal</span>
-                    <div class="term">
-                      <div class="term-line term-cmd term-copy" data-copy="npx skills add brmbh/wordpress">
-                        <span class="term-cmd__txt"><span class="term-sym">$</span> npx skills add brmbh/wordpress</span>
-                        <button class="copy copy--sm" type="button">Copy</button>
-                      </div>
-                      <div class="term-line term-ok">✓ fetched brmbh/wordpress</div>
-                      <div class="term-line term-ok">✓ installed skill — wordpress</div>
-                      <div class="term-line term-dim">&nbsp;&nbsp;Claude Code · Cursor · Windsurf · +30 agents</div>
-                      <div class="term-line term-accent">✦ your agent now speaks brmbh</div>
-                    </div>
-                  </div>
-                  <!-- Scene 2: agent scaffolds -->
-                  <div class="scene" data-scene="2">
-                    <span class="scene__cap">You ask your agent</span>
-                    <div class="prompt-bar" data-copy="create a new brmbh theme called my-site">
-                      <span class="prompt-bar__spark" aria-hidden="true">✦</span>
-                      <span class="prompt-bar__text">create a new brmbh theme called my-site</span>
-                      <button class="copy copy--sm copy--bar" type="button">Copy</button>
-                    </div>
-                    <div class="term">
-                      <div class="term-line term-cmd term-copy" data-copy="npx @brmbh/cli create my-site">
-                        <span class="term-cmd__txt"><span class="term-sym">$</span> npx @brmbh/cli create my-site</span>
-                        <button class="copy copy--sm" type="button">Copy</button>
-                      </div>
-                      <div class="term-line term-ok">✓ cloned brmbh/wordpress</div>
-                      <div class="term-line term-ok">✓ npm install — 42 packages</div>
-                      <div class="term-line term-ok">✓ activated in WordPress</div>
-                      <div class="term-line term-accent">✦ theme ready — start building</div>
-                    </div>
-                  </div>
-                  <!-- Scene 3: implement a block -->
-                  <div class="scene" data-scene="3">
-                    <span class="scene__cap">You ask your agent</span>
-                    <div class="prompt-bar" data-copy="create a hero block from this Figma frame">
-                      <span class="prompt-bar__spark" aria-hidden="true">✦</span>
-                      <span class="prompt-bar__text">create a hero block from this Figma frame</span>
-                      <button class="copy copy--sm copy--bar" type="button">Copy</button>
-                    </div>
-                    <div class="editor">
-                      <div class="editor__tab"><span class="ft-dot ft--php"></span> hero/template.php</div>
-<pre class="editor__code"><span class="c-tag">&lt;?php</span>
-<span class="c-cmt">// hero — agent-built from your Figma frame</span>
-<span class="c-var">$title</span>    = get_field(<span class="c-str">'title'</span>);
-<span class="c-var">$subtitle</span> = get_field(<span class="c-str">'subtitle'</span>); <span class="c-tag">?&gt;</span>
-
-<span class="c-tag">&lt;section</span> <span class="c-atr">class</span>=<span class="c-str">"hero py-6 bg-dark text-white"</span><span class="c-tag">&gt;</span>
-  <span class="c-tag">&lt;div</span> <span class="c-atr">class</span>=<span class="c-str">"container"</span><span class="c-tag">&gt;</span>
-    <span class="c-tag">&lt;h1</span> <span class="c-atr">class</span>=<span class="c-str">"display-3"</span><span class="c-tag">&gt;</span><span class="c-tag">&lt;?=</span> esc_html(<span class="c-var">$title</span>) <span class="c-tag">?&gt;</span><span class="c-tag">&lt;/h1&gt;</span>
-    <span class="c-tag">&lt;p</span> <span class="c-atr">class</span>=<span class="c-str">"lead"</span><span class="c-tag">&gt;</span><span class="c-tag">&lt;?=</span> esc_html(<span class="c-var">$subtitle</span>) <span class="c-tag">?&gt;</span><span class="c-tag">&lt;/p&gt;</span>
-  <span class="c-tag">&lt;/div&gt;</span>
-<span class="c-tag">&lt;/section&gt;</span></pre>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
+      <div class="head">
+        <h2><span class="mk" data-glyph="quarter:white"></span>The grunt work, already done.</h2>
+        <p class="lead">Four pieces, each one a part of the suite. Scroll, and they leave their boxes for the tray.</p>
       </div>
+      <div class="pieces" data-pieces></div>
     </div>
   </section>
 
-  <!-- features -->
-  <section class="section dotgrid" id="features">
-    <div class="wrap">
-      <span class="eyebrow eyebrow--diamond eyebrow--red" data-reveal>What's in the box</span>
-      <h2 class="h2" style="margin:1rem 0 2.5rem" data-reveal>The grunt work, already done.</h2>
-    </div>
-    <div class="wrap--flush">
-      <div class="grid" data-reveal>
-        <div class="cell cell--lead">
-          <div class="cell__icon" aria-hidden="true"><span style="width:100%;height:100%;border-radius:50%"></span></div>
-          <h3>ACF block factory</h3>
-          <p>Spin up custom blocks in minutes — no registration boilerplate, no fighting the editor. Drop a four-file folder in and it registers itself.</p>
-          <a class="cell__link" href="docs.html#add-block">Build a block</a>
-        </div>
-        <div class="cell cell--half">
-          <div class="cell__icon" aria-hidden="true"><span style="width:100%;height:14px;align-self:center"></span></div>
-          <h3>Bootstrap 5 ↔ Gutenberg</h3>
-          <p>Build with the framework you know; hand clients an editor they can't break. No one types a class.</p>
-          <a class="cell__link" href="docs.html#architecture">How it bridges</a>
-        </div>
-        <div class="cell cell--half">
-          <div class="cell__icon" aria-hidden="true"><span style="width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-bottom:22px solid var(--accent);background:none"></span></div>
-          <h3>Agent skills built in</h3>
-          <p>Your AI editor already knows how to build for this theme — on Claude, Cursor, or Windsurf.</p>
-          <a class="cell__link" href="docs.html#agent-mode">For agents</a>
-        </div>
-        <div class="cell">
-          <div class="cell__icon" aria-hidden="true"><span style="width:100%;height:100%"></span></div>
-          <h3>Figma token pipeline</h3>
-          <p>Change a color in Figma, see it in the build. No more copying hex codes by hand.</p>
-          <a class="cell__link" href="docs.html#architecture">Design tokens</a>
-        </div>
-        <div class="cell">
-          <div class="cell__icon" aria-hidden="true"><span style="width:14px;height:100%;margin-inline:auto"></span></div>
-          <h3>Deploy &amp; DB suite</h3>
-          <p>Push to staging or production, and move databases between them — without the fear of nuking prod.</p>
-          <a class="cell__link" href="docs.html#deploy">Ship it</a>
-        </div>
-        <div class="cell">
-          <div class="cell__icon" aria-hidden="true"><span style="width:100%;height:100%;border-radius:50% 50% 50% 0"></span></div>
-          <h3>Code-first CLI</h3>
-          <p>One tool from first scaffold to final deploy. You drive it by hand; your agent drives it the same way.</p>
-          <a class="cell__link" href="docs.html#agent-mode">JSON mode</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- commands / pillars -->
-  <section class="section" id="commands">
-    <div class="wrap">
-      <span class="eyebrow eyebrow--disc eyebrow--blue" data-reveal>One CLI · four jobs</span>
-      <h2 class="h2" style="margin:1rem 0 2.5rem" data-reveal>Small surface. Whole lifecycle.</h2>
-    </div>
-    <div class="wrap--flush">
-      <div class="pillars" data-reveal>
-        <div class="pillar">
-          <span class="pillar__num">01 — Scaffolding</span>
-          <h3>Start &amp; grow a project</h3>
-          <ul>
-            <li><code>create</code> scaffold, install, build, wire skills, activate</li>
-            <li><code>add block</code> four-file ACF block, factory convention</li>
-            <li><code>add cpt</code> one-file custom post type</li>
-            <li><code>add skills</code> regenerate agent wrappers from <code>AGENTS/</code></li>
-          </ul>
-        </div>
-        <div class="pillar">
-          <span class="pillar__num">02 — Dev operations</span>
-          <h3>Day-to-day tooling</h3>
-          <ul>
-            <li><code>dev</code> build &amp; watch CSS + JS</li>
-            <li><code>doctor</code> health check — node, theme, build, ACF Pro</li>
-          </ul>
-        </div>
-        <div class="pillar">
-          <span class="pillar__num">03 — Cloud deploy</span>
-          <h3>Ship it</h3>
-          <ul>
-            <li><code>deploy staging</code> push to a staging environment</li>
-            <li><code>deploy prod</code> promote to production</li>
-          </ul>
-        </div>
-        <div class="pillar">
-          <span class="pillar__num">04 — DB &amp; sync</span>
-          <h3>Move data safely</h3>
-          <ul>
-            <li><code>db pull</code> remote database → local</li>
-            <li><code>db push</code> local database → remote</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- agents dual-mode — interactive L1/L2/L3 -->
-  <section class="section" id="agents">
-    <div class="wrap">
-      <span class="eyebrow eyebrow--ring eyebrow--yellow" data-reveal>Built for agents</span>
-      <h2 class="h2" style="margin:1rem 0 0.8rem;max-width:20ch" data-reveal>
-        Every command speaks human <span class="accent">and machine.</span>
-      </h2>
-      <p class="lead" data-reveal>
-        Add <code class="mono">--json</code> and every command answers with a clean envelope instead of prose —
-        tagged with a <strong>level</strong> that tells the agent how to use it.
-      </p>
-
-      <div class="levels" data-levels data-reveal>
-        <div class="levels__tabs" role="tablist" aria-label="Tool levels">
-          <button class="levels__tab is-active" role="tab" data-level="l1">
-            <span class="badge badge--l1">L1</span> Data
-          </button>
-          <button class="levels__tab" role="tab" data-level="l2">
-            <span class="badge badge--l2">L2</span> Classification
-          </button>
-          <button class="levels__tab" role="tab" data-level="l3">
-            <span class="badge badge--l3">L3</span> Instructions
-          </button>
-        </div>
-
-        <div class="levels__stage">
-          <!-- L1 -->
-          <div class="levels__panel is-active" data-panel="l1">
-            <div class="levels__copy">
-              <h3 class="h3">Raw data → the agent interprets</h3>
-              <p class="muted">The tool reports the facts and stays out of it. The agent reads them and decides.</p>
-            </div>
-            <div class="terminal">
-              <div class="terminal__bar">
-                <span class="terminal__dot terminal__dot--r"></span><span class="terminal__dot terminal__dot--y"></span><span class="terminal__dot terminal__dot--g"></span>
-                <span class="terminal__title">brmbh dev --once --json</span>
-              </div>
-<div class="terminal__body"><span class="dim">$ brmbh dev --once --json</span>
-{
-  <span class="head">"ok"</span>: true,
-  <span class="head">"message"</span>: "Build complete",
-  <span class="step">"script"</span>: "build",
-  <span class="head">"themeDir"</span>: "wp-content/themes/my-site"
-}</div>
-            </div>
-          </div>
-
-          <!-- L2 -->
-          <div class="levels__panel" data-panel="l2">
-            <div class="levels__copy">
-              <h3 class="h3">A <code class="mono">class</code> → the agent branches</h3>
-              <p class="muted">The tool does the classifying and hands back one field to switch on. Just branch on <code class="mono">class</code>. (That's <code class="mono">doctor</code>.)</p>
-            </div>
-            <div class="terminal">
-              <div class="terminal__bar">
-                <span class="terminal__dot terminal__dot--r"></span><span class="terminal__dot terminal__dot--y"></span><span class="terminal__dot terminal__dot--g"></span>
-                <span class="terminal__title">brmbh doctor --json</span>
-              </div>
-<div class="terminal__body"><span class="dim">$ brmbh doctor --json</span>
-{
-  <span class="head">"ok"</span>: true,
-  <span class="head">"message"</span>: "Environment: ready",
-  <span class="step">"class"</span>: <span class="ok">"ready"</span>,
-  <span class="head">"checks"</span>: [
-    { "name": "node",    "status": "ok" },
-    { "name": "build",   "status": "ok" },
-    { "name": "acf-pro", "status": "ok" }
-  ]
-}</div>
-            </div>
-          </div>
-
-          <!-- L3 -->
-          <div class="levels__panel" data-panel="l3">
-            <div class="levels__copy">
-              <h3 class="h3">A <code class="mono">next</code> procedure → the agent executes</h3>
-              <p class="muted">The tool hands back the exact next steps. The agent runs them verbatim — no guessing. (That's <code class="mono">create</code> and <code class="mono">add</code>.)</p>
-            </div>
-            <div class="terminal">
-              <div class="terminal__bar">
-                <span class="terminal__dot terminal__dot--r"></span><span class="terminal__dot terminal__dot--y"></span><span class="terminal__dot terminal__dot--g"></span>
-                <span class="terminal__title">brmbh add block hero --json</span>
-              </div>
-<div class="terminal__body"><span class="dim">$ brmbh add block hero --json</span>
-{
-  <span class="head">"ok"</span>: true,
-  <span class="head">"message"</span>: "Added block \"Hero\"",
-  <span class="head">"slug"</span>: "hero",
-  <span class="step">"next"</span>: [
-    "Define the ACF fields in fields.php",
-    "Render them with Bootstrap utilities + tokens",
-    "Rebuild styles: brmbh dev --once"
-  ]
-}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- agent superpowers: full stack + wp-cli as MCP -->
-  <section class="section" id="superpowers">
-    <div class="wrap">
-      <span class="eyebrow eyebrow--bar eyebrow--red" data-reveal>The payoff</span>
-      <h2 class="h2" style="margin:1rem 0 2.5rem;max-width:22ch" data-reveal>
-        Your agent doesn't just scaffold. It works the whole stack.
-      </h2>
-    </div>
-    <div class="wrap--flush">
-      <div class="power" data-reveal>
-        <article class="power__card">
-          <div class="power__mark" aria-hidden="true"><span></span><span></span></div>
-          <h3>Server <span class="dim">&amp;</span> client, both</h3>
-          <p>
-            Vanilla PHP and a real JS build — no Blade, no black box. So one agent writes
-            <strong>both halves</strong>: the PHP on the server and the JavaScript in the browser. Front to back,
-            same conversation.
-          </p>
-          <ul class="power__list">
-            <li><span class="mono accent">server</span> ACF blocks · CPTs · <code>template.php</code> · hooks</li>
-            <li><span class="mono accent">client</span> GSAP · Bootstrap JS · interactions · the build</li>
-          </ul>
-        </article>
-        <article class="power__card">
-          <div class="power__mark power__mark--mcp" aria-hidden="true"><span></span><span></span><span></span></div>
-          <h3>wp-cli as a backend MCP</h3>
-          <p>
-            WordPress ships <code>wp-cli</code> — a full, scriptable backend. brmbh wraps it, so your agent can
-            <strong>run the CMS like an MCP</strong>: create content, manage plugins, query the database, move
-            environments around.
-          </p>
-          <ul class="power__list">
-            <li><span class="mono accent">read</span> query posts · options · plugin &amp; version drift</li>
-            <li><span class="mono accent">write</span> create content · activate plugins · DB pull/push</li>
-          </ul>
+  <section class="story" data-story>
+    <div class="story__grid">
+      <div class="story__steps" data-story-steps>
+        <article class="sstory is-on" data-state="0">
+          <h3>Why Suite?</h3>
+          <p>WordPress is free, open source and runs on your server. Because of agents there is no need for mega-menu plugins or complex staging environments anymore.</p>
         </article>
       </div>
-    </div>
-  </section>
-
-  <!-- human in the loop -->
-  <section class="section" id="control">
-    <div class="wrap">
-      <span class="eyebrow eyebrow--circle eyebrow--yellow" data-reveal>Human in the loop</span>
-      <div class="manifesto" data-reveal>
-        <h2 class="h2 manifesto__lead">The agent builds fast. You never lose the wheel.</h2>
-        <p class="lead">
-          Plain PHP and the WordPress patterns you already know — ACF, Gutenberg, the loop. Nothing proprietary to
-          learn. Every file the agent writes is yours to read, edit, and own.
-        </p>
-      </div>
-    </div>
-    <div class="wrap--flush">
-      <div class="grounded" data-reveal>
-        <div class="ground">
-          <span class="ground__k">Plain PHP</span>
-          <h4>No black box</h4>
-          <p>No Blade, no compile step. Open <code class="mono">template.php</code> — it's just PHP and HTML.</p>
-        </div>
-        <div class="ground">
-          <span class="ground__k">WordPress-standard</span>
-          <h4>Grounded in real WP</h4>
-          <p>Standard <code class="mono">block.json</code>, ACF, and hooks — conventions WordPress already ships. Nothing new to learn.</p>
-        </div>
-        <div class="ground">
-          <span class="ground__k">Yours to edit</span>
-          <h4>Take over anytime</h4>
-          <p>Every file is readable and editable. Step in, change a line, hand it back. The agent speeds you up — it never locks you out.</p>
-        </div>
+      <div class="story__stage">
+        <canvas data-story-canvas aria-label="A tray that fills with the four parts of the suite as you scroll"></canvas>
       </div>
     </div>
   </section>
 
-  <!-- comparison -->
-  <section class="section" id="compare">
+  <!-- how it works: pinned scroll, the file tree builds -->
+  <section class="band" id="how">
     <div class="wrap">
-      <span class="eyebrow eyebrow--diamond eyebrow--blue" data-reveal>How it compares</span>
-      <h2 class="h2" style="margin:1rem 0 2.5rem" data-reveal>Nobody else ships all of this.</h2>
+      <div class="head">
+        <h2>You just chat with your agent.</h2>
+        <p class="lead">Teach your agent the brmbh workflow once. After that you describe what you want; it writes plain WordPress files that are yours to edit and ship.</p>
+      </div>
     </div>
-    <div class="wrap--wide">
-      <div class="compare" data-reveal>
-        <table class="compare__table">
+    <div class="scrolly" data-scrolly>
+      <div class="scrolly__pin">
+        <div class="wrap scrolly__inner">
+          <div class="scrolly__steps">
+            <button class="sstep is-on" type="button" data-sstep="1">
+              <h3>Add the agent skills</h3>
+              <p>One command and your agent knows the full brmbh workflow: scaffold, blocks, deploy, DB sync. Works on Claude Code, Cursor, Windsurf and 30+ others.</p>
+            </button>
+            <button class="sstep" type="button" data-sstep="2">
+              <h3>Your agent scaffolds</h3>
+              <p>Hand your agent the project name. It clones the theme, installs dependencies, builds assets, activates it in WordPress and wires its own skills into the repo.</p>
+            </button>
+            <button class="sstep" type="button" data-sstep="3">
+              <h3>Build, block by block</h3>
+              <p>Every block is one conversation. Point at a Figma frame; the agent writes the four files, compiles the styles and registers the block. You review and ship.</p>
+            </button>
+          </div>
+
+          <div class="ide" aria-label="Code editor window">
+            <div class="ide__titlebar">
+              <span class="ide__lights" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="ide__title" data-ide-title>my-theme — Terminal</span>
+            </div>
+            <div class="ide__main">
+              <nav class="ide__activity" aria-hidden="true">
+                <svg class="is-on" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5"/></svg>
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></svg>
+                <svg viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="8" r="2"/><path d="M6 7v10M18 10c0 4-6 3-12 7"/></svg>
+                <svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg>
+              </nav>
+              <div class="ide__tree" data-tree>
+                <div class="ide__label">Explorer</div>
+                <div class="ft ft--dir">wp-themes</div>
+                <div class="ft ft--dir build" style="--d:1">my-theme</div>
+                <div class="ft build" style="--d:2" data-ext="css">style.css</div>
+                <div class="ft build" style="--d:2" data-ext="php">functions.php</div>
+                <div class="ft build" style="--d:2" data-ext="php">front-page.php</div>
+                <div class="ft ft--dir build" style="--d:2">my-acf-blocks</div>
+                <div class="ft build" style="--d:3" data-ext="php">loader.php</div>
+                <div class="ft ft--dir build hl" style="--d:3">hero <span class="ft__new">new</span></div>
+                <div class="ft build hl" style="--d:4" data-ext="json">block.json</div>
+                <div class="ft build hl" style="--d:4" data-ext="php">fields.php</div>
+                <div class="ft build hl" style="--d:4" data-ext="php">template.php</div>
+                <div class="ft build hl" style="--d:4" data-ext="scss">_style.scss</div>
+                <div class="ft ft--dir build" style="--d:2">AGENTS</div>
+                <div class="ft build" style="--d:3" data-ext="md">create-block.md</div>
+                <div class="ft build" style="--d:3" data-ext="md">deploy.md</div>
+                <div class="ft build" style="--d:2" data-ext="json">package.json</div>
+                <div class="ft build" style="--d:2" data-ext="json">theme.json</div>
+              </div>
+              <div class="ide__editor">
+                <div class="ide__tabs" data-ide-tabs></div>
+              <div class="ide__stage">
+                <div class="scene is-on" data-scene="1">
+                  <span class="mono">Run once in your terminal</span>
+<pre class="ink"><span class="dim">$</span> npx skills add brmbh/wordpress
+<span class="ok">✓</span> fetched brmbh/wordpress
+<span class="ok">✓</span> installed skill — wordpress
+<span class="dim">  Claude Code · Cursor · Windsurf · +30 agents</span>
+<span class="y">▲</span> your agent now speaks brmbh</pre>
+                </div>
+                <div class="scene" data-scene="2">
+                  <span class="mono">You ask your agent</span>
+                  <div class="ask__bar ask__bar--ink"><span class="ask__mk" data-glyph="quarter:white"></span>create a new brmbh theme called my-theme</div>
+<pre class="ink"><span class="dim">$</span> npx @brmbh/cli create my-theme
+<span class="ok">✓</span> cloned brmbh/wordpress
+<span class="ok">✓</span> npm install — 42 packages
+<span class="ok">✓</span> activated in WordPress
+<span class="y">▲</span> theme ready — start building</pre>
+                </div>
+                <div class="scene" data-scene="3">
+                  <span class="mono">You ask your agent</span>
+                  <div class="ask__bar ask__bar--ink"><span class="ask__mk" data-glyph="circle:red"></span>create a hero block from this Figma frame</div>
+<pre class="ink ink--code"><span class="dim">&lt;?php // hero — agent-built from your Figma frame</span>
+<span class="b">$title</span>    = get_field(<span class="ok">'title'</span>);
+<span class="b">$subtitle</span> = get_field(<span class="ok">'subtitle'</span>); <span class="dim">?&gt;</span>
+
+<span class="r">&lt;section</span> class=<span class="ok">"hero py-6 bg-dark text-white"</span><span class="r">&gt;</span>
+  <span class="r">&lt;h1</span> class=<span class="ok">"display-3"</span><span class="r">&gt;</span>&lt;?= esc_html(<span class="b">$title</span>) ?&gt;<span class="r">&lt;/h1&gt;</span>
+  <span class="r">&lt;p</span> class=<span class="ok">"lead"</span><span class="r">&gt;</span>&lt;?= esc_html(<span class="b">$subtitle</span>) ?&gt;<span class="r">&lt;/p&gt;</span>
+<span class="r">&lt;/section&gt;</span></pre>
+                </div>
+              </div>
+              </div>
+            </div>
+            <div class="ide__status">
+              <span>⎇ main</span><span class="ide__status-mk"><span data-glyph="triangle:yellow"></span>brmbh</span>
+              <span class="ide__status-r" data-ide-lang>zsh</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- payoff -->
+  <section class="band band--2" id="superpowers">
+    <div class="wrap">
+      <div class="head">
+        <h2>Driven by agents steered by humans.</h2>
+      </div>
+      <div class="cols cols--2">
+        <div class="col col--big">
+          <div class="pair" aria-hidden="true"><span data-glyph="quarter:white"></span><span data-glyph="circle:red"></span></div>
+          <h3>Server and client</h3>
+          <p>Vanilla PHP and a real JS build — no Blade, no black box. So one agent writes <strong>both halves</strong>: the PHP on the server and the JavaScript in the browser. Front to back, same conversation.</p>
+          <ul class="kv">
+            <li><span class="mono">server</span> SCF blocks · CPTs · <code>template.php</code> · hooks</li>
+            <li><span class="mono">client</span> GSAP · Bootstrap JS · interactions · the build</li>
+          </ul>
+        </div>
+        <div class="col col--big">
+          <div class="pair" aria-hidden="true"><span data-glyph="quarter:blue:1"></span><span data-glyph="triangle:yellow"></span></div>
+          <h3>wp-cli as a Content MCP</h3>
+          <p>WordPress ships <code>wp-cli</code> — a full, scriptable backend. brmbh wraps it, so your agent can <strong>run the CMS like an MCP</strong>: create content, manage plugins, query the database, move environments around.</p>
+          <ul class="kv">
+            <li><span class="mono">read</span> query posts · options · plugin and version drift</li>
+            <li><span class="mono">write</span> create content · activate plugins · DB pull/push</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- compare -->
+  <section class="band" id="compare">
+    <div class="wrap">
+      <div class="head">
+        <h2>Nobody else ships all of this.</h2>
+      </div>
+      <div class="table-scroll">
+        <table class="compare">
           <thead>
-            <tr>
-              <th></th>
-              <th class="compare__hl">This suite</th>
-              <th>Underscores <span class="mono dim">_s</span></th>
-              <th>Understrap</th>
-              <th>Sage <span class="dim">(Roots)</span></th>
-            </tr>
+            <tr><th></th><th class="hl">brmbh</th><th>Underscores</th><th>Understrap</th><th>Sage</th></tr>
           </thead>
           <tbody>
-            <tr><td>CSS framework</td><td class="compare__hl"><strong>Bootstrap 5</strong></td><td class="dim">none</td><td>Bootstrap</td><td>Tailwind</td></tr>
-            <tr><td>Bootstrap ↔ Gutenberg token bridge</td><td class="compare__hl yes">✅</td><td class="dim">—</td><td>partial</td><td class="dim">—</td></tr>
-            <tr><td>Self-registering ACF block factory</td><td class="compare__hl yes">✅</td><td class="dim">—</td><td class="dim">—</td><td class="dim">—</td></tr>
-            <tr><td>Agent skills (Claude/Cursor/Windsurf)</td><td class="compare__hl yes">✅</td><td class="dim">—</td><td class="dim">—</td><td class="dim">—</td></tr>
-            <tr><td>Figma → SCSS token sync</td><td class="compare__hl yes">✅</td><td class="dim">—</td><td class="dim">—</td><td class="dim">—</td></tr>
-            <tr><td>Deploy + DB-sync tooling included</td><td class="compare__hl yes">✅</td><td class="dim">—</td><td class="dim">—</td><td class="dim">—</td></tr>
-            <tr><td>Templating</td><td class="compare__hl">vanilla PHP</td><td>vanilla PHP</td><td>vanilla PHP</td><td>Blade</td></tr>
-            <tr><td>Build toolchain</td><td class="compare__hl">npm + Webpack + Sass</td><td class="dim">none</td><td>Gulp / npm</td><td>Bud + Composer</td></tr>
-            <tr><td>Requires ACF Pro</td><td class="compare__hl"><strong>yes</strong></td><td>no</td><td>no</td><td>no</td></tr>
+            <tr><td>CSS framework</td><td class="hl">Bootstrap 5</td><td class="dim">none</td><td>Bootstrap</td><td>Tailwind</td></tr>
+            <tr><td>Bootstrap ↔ Gutenberg bridge</td><td class="hl" data-yes></td><td class="dim">—</td><td>partial</td><td class="dim">—</td></tr>
+            <tr><td>Self-registering SCF blocks</td><td class="hl" data-yes></td><td class="dim">—</td><td class="dim">—</td><td class="dim">—</td></tr>
+            <tr><td>Agent skills</td><td class="hl" data-yes></td><td class="dim">—</td><td class="dim">—</td><td class="dim">—</td></tr>
+            <tr><td>Figma → SCSS tokens</td><td class="hl" data-yes></td><td class="dim">—</td><td class="dim">—</td><td class="dim">—</td></tr>
+            <tr><td>Deploy + DB sync</td><td class="hl" data-yes></td><td class="dim">—</td><td class="dim">—</td><td class="dim">—</td></tr>
+            <tr><td>Templating</td><td class="hl">vanilla PHP</td><td>vanilla PHP</td><td>vanilla PHP</td><td>Blade</td></tr>
+            <tr><td>Requires SCF</td><td class="hl">yes (free)</td><td>no</td><td>no</td><td>no</td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <!-- quick start -->
-  <section class="section dotgrid" id="start">
+  <!-- start -->
+  <section class="band band--2" id="start">
     <div class="wrap">
-      <span class="eyebrow eyebrow--triangle eyebrow--red" data-reveal>From zero to building</span>
-      <h2 class="h2" style="margin:1rem 0 2.5rem" data-reveal>Four steps. One real command.</h2>
-    </div>
-    <div class="wrap--flush">
-      <div class="steps" data-reveal>
-        <div class="step-card">
-          <span class="step-card__n">01</span>
-          <h4>Open your themes folder</h4>
-          <button class="copycode" type="button" data-copy="cd wp-content/themes">cd wp-content/themes</button>
-        </div>
-        <div class="step-card">
-          <span class="step-card__n">02</span>
-          <h4>Scaffold</h4>
-          <button class="copycode" type="button" data-copy="npx @brmbh/cli create my-site">npx @brmbh/cli create my-site</button>
-          <p>clone, install, build, skills, activate.</p>
-        </div>
-        <div class="step-card">
-          <span class="step-card__n">03</span>
-          <h4>Open your AI editor</h4>
-          <p>The skills are there. “Create a hero block from this Figma frame.”</p>
-        </div>
-        <div class="step-card">
-          <span class="step-card__n">04</span>
-          <h4>Ship</h4>
-          <button class="copycode" type="button" data-copy="brmbh deploy staging">brmbh deploy staging</button>
-        </div>
+      <div class="head">
+        <h2>Four steps. One real command.</h2>
       </div>
-    </div>
-    <div class="wrap">
-      <div class="btn-row" style="margin-top:2.5rem" data-reveal>
-        <a class="btn btn--accent" href="docs.html">Read the docs →</a>
-        <a class="btn btn--ghost" href="https://github.com/brmbh/wordpress" target="_blank" rel="noopener">GitHub ↗</a>
+      <div class="cols cols--4">
+        <div class="col"><h3>Themes folder</h3><button class="chip" type="button" data-copy="cd wp-content/themes">cd wp-content/themes</button></div>
+        <div class="col"><h3>Scaffold</h3><button class="chip" type="button" data-copy="npx @brmbh/cli create my-theme">npx @brmbh/cli create my-theme</button></div>
+        <div class="col"><h3>Ask your agent</h3><p>“Create a hero block from this Figma frame.”</p></div>
+        <div class="col"><h3>Ship</h3><button class="chip" type="button" data-copy="brmbh deploy staging">brmbh deploy staging</button></div>
+      </div>
+      <div class="actions">
+        <a class="btn" href="docs.html">Read the docs</a>
+        <a class="btn btn--quiet" href="https://github.com/brmbh/wordpress" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
     </div>
   </section>
 
-  <!-- footer -->
-  <footer class="site-footer">
-    <div class="wrap site-footer__inner">
-      <div>
-        <div class="brand" style="font-size:1rem;margin-bottom:0.5rem">
-          <span class="brand__mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
-          brmbh
-        </div>
-        <span class="dim">The agentic WordPress suite. Built by Jan Brombach.</span>
-      </div>
-      <nav class="footer-links">
-        <a href="docs.html">Documentation</a>
+  <footer class="band foot">
+    <div class="wrap foot__inner">
+      <div class="brand brand--ink"><span class="brand__mark" data-mark="ink"></span><span class="brand__word">brmbh</span></div>
+      <nav class="foot__links" aria-label="Footer">
+        <a href="docs.html">Docs</a>
         <a href="https://github.com/brmbh/wordpress" target="_blank" rel="noopener">GitHub</a>
         <a href="docs.html#install">Install</a>
         <a href="https://github.com/brmbh/wordpress/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
       </nav>
+      <p class="mono">Built by Jan Brombach.</p>
     </div>
   </footer>
 
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="assets/main.js" defer></script>
+  <script src="assets/vendor/zdog.dist.js" defer></script>
+  <script src="assets/brand.js" defer></script>
+  <script src="assets/v1.js" defer></script>
 </body>
 </html>

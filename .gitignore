@@ -1,0 +1,4 @@
+# licensed fonts — local dev only until web licences are checked
+assets/fonts/
+.tack/
+/brand
