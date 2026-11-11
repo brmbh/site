@@ -259,37 +259,8 @@
     </div>
   </section>
 
-  <!-- updates + deploys -->
-  <section class="band" id="ship">
-    <div class="wrap">
-      <div class="head">
-        <h2>Stays current. Ships safely.</h2>
-      </div>
-      <div class="cols cols--2">
-        <div class="col col--big">
-          <div class="pair" aria-hidden="true"><span data-glyph="circle:white"></span><span data-glyph="quarter:yellow:2"></span></div>
-          <h3>One command updates</h3>
-          <p><code>npx brmbh update</code> brings the CLI, the agent skills and the core of the theme to the newest version. Your templates, blocks and styles are <strong>never overwritten</strong>: a change to your files comes as a migration that is shown first.</p>
-          <ul class="kv">
-            <li><span class="mono">core</span> block factory · SCF guard · <code>wp brmbh</code> commands, replaced as a whole</li>
-            <li><span class="mono">yours</span> templates · blocks · styles, touched only by a migration</li>
-          </ul>
-        </div>
-        <div class="col col--big">
-          <div class="pair" aria-hidden="true"><span data-glyph="triangle:red"></span><span data-glyph="quarter:white:3"></span></div>
-          <h3>Deploys you can check</h3>
-          <p><code>npx brmbh deploy production</code> ships a <strong>commit</strong>, not a working tree. A dry run lists every file first, <code>--apply</code> sends, and the live site has to show that commit afterwards. Every database import is backed up first.</p>
-          <ul class="kv">
-            <li><span class="mono">where</span> any host with SSH · named in <code>brmbh.json</code></li>
-            <li><span class="mono">from</span> your laptop, or CI with <code>brmbh add ci github</code></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- compare -->
-  <section class="band band--2" id="compare">
+  <section class="band" id="compare">
     <div class="wrap">
       <div class="head">
         <h2>Nobody else ships this.</h2>
@@ -315,7 +286,7 @@
   </section>
 
   <!-- start -->
-  <section class="band" id="start">
+  <section class="band band--2" id="start">
     <div class="wrap">
       <div class="head">
         <h2>Get started yourself.</h2>
@@ -324,7 +295,7 @@
         <div class="col"><h3>Themes folder</h3><button class="chip" type="button" data-copy="cd wp-content/themes">cd wp-content/themes</button></div>
         <div class="col"><h3>Scaffold</h3><button class="chip" type="button" data-copy="npx @brmbh/cli create my-theme">npx @brmbh/cli create my-theme</button></div>
         <div class="col"><h3>Ask your agent</h3><p>“Create a hero block from this Figma frame.”</p></div>
-        <div class="col"><h3>Ship</h3><button class="chip" type="button" data-copy="npx brmbh deploy staging">npx brmbh deploy staging</button></div>
+        <div class="col"><h3>Ship</h3><button class="chip" type="button" data-copy="brmbh deploy staging">brmbh deploy staging</button></div>
       </div>
       <div class="actions">
         <a class="btn" href="docs.html">Read the docs</a>
