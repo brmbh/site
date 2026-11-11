@@ -45,8 +45,12 @@
         <a href="#dev">dev</a>
         <a href="#doctor">doctor</a>
         <a href="#update">update</a>
+        <a href="#environments">environments</a>
         <a href="#deploy">deploy</a>
         <a href="#db">db</a>
+        <a href="#uploads">uploads</a>
+        <a href="#env">env</a>
+        <a href="#ci">add ci</a>
         <p class="mono">Concepts</p>
         <a href="#agent-mode">Agent / JSON mode</a>
         <a href="#acf">SCF</a>
@@ -178,7 +182,7 @@ brmbh dev --once    <span class="dim"># single build, then exit</span></pre>
         <p>Check that the theme and environment are correctly wired. Returns a single <code>class</code> — <code>ready</code>, <code>warn</code>, or <code>blocked</code> — plus the individual checks, so an agent can branch deterministically.</p>
         <pre class="ink" data-copy="brmbh doctor">brmbh doctor
 brmbh doctor --json</pre>
-        <p>Checks: node version, theme detected, dependencies installed, assets built, skills present, env files, wp-cli availability, and SCF status.</p>
+        <p>Checks: node version, theme detected, dependencies installed, assets built, skills present, environments, wp-cli availability, and SCF status.</p>
         <pre class="ink"><span class="dim"># --json output</span>
 {
   <span class="b">"ok"</span>: true,
@@ -207,21 +211,83 @@ npx brmbh update --dry-run  <span class="dim"># show what would change, write no
           <strong>Nothing half-done.</strong> If a migration needs you first (for example a starter file you edited), <code>update</code> writes nothing and returns <code>class: "blocked"</code> with the file and the fix. <code>doctor</code> reports a missing, outdated or hand-edited core.
         </div>
 
-        <h2 id="deploy">deploy <span class="lvl" data-lvl="2">L2</span></h2>
-        <p>Deploy the theme to an environment. Wraps the theme's <code>tools/deploy.sh</code>; if the deploy suite isn't present, the command explains rather than failing silently.</p>
-        <pre class="ink" data-copy="brmbh deploy <env>">brmbh deploy &lt;staging|prod&gt; [--dry-run]</pre>
+        <h2 id="environments">Environments</h2>
+        <p>An environment is a named place the site runs: any number, any names (<code>staging</code>, <code>production</code>, <code>review</code>). They are defined in the theme's project config, and every command that talks to a server takes the name.</p>
         <table>
-          <thead><tr><th>Argument / flag</th><th>Description</th></tr></thead>
+          <thead><tr><th>File</th><th>What it holds</th></tr></thead>
           <tbody>
-            <tr><td><code>&lt;env&gt;</code></td><td>Target environment: <code>staging</code> or <code>prod</code>.</td></tr>
-            <tr><td><code>--dry-run</code></td><td>Pass through as a dry run if the script supports it.</td></tr>
+            <tr><td><code>brmbh.json</code></td><td>Committed. Environments the whole team shares, and deploy settings.</td></tr>
+            <tr><td><code>brmbh.local.json</code></td><td>Gitignored. Overrides <code>brmbh.json</code> key by key on this machine, e.g. hosts that should stay out of git.</td></tr>
           </tbody>
         </table>
+        <pre class="ink"><span class="dim"># brmbh.json</span>
+{
+  <span class="b">"environments"</span>: {
+    <span class="b">"staging"</span>:    { <span class="b">"ssh"</span>: <span class="b">"deploy@staging.example.com"</span>, <span class="b">"path"</span>: <span class="b">"/var/www/staging"</span>, <span class="b">"url"</span>: <span class="b">"https://staging.example.com"</span>, <span class="b">"canonical"</span>: <span class="b">"local"</span> },
+    <span class="b">"production"</span>: { <span class="b">"ssh"</span>: <span class="b">"deploy@example.com"</span>, <span class="b">"path"</span>: <span class="b">"/var/www/html"</span>, <span class="b">"url"</span>: <span class="b">"https://example.com"</span>, <span class="b">"canonical"</span>: <span class="b">"remote"</span> }
+  },
+  <span class="b">"deploy"</span>: { <span class="b">"include"</span>: [<span class="b">"assets/dist"</span>] }
+}</pre>
+        <table>
+          <thead><tr><th>Key</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><code>ssh</code></td><td>SSH target (<code>user@host</code> or an alias from <code>~/.ssh/config</code>). Keys come from the machine or a CI secret, never from the config.</td></tr>
+            <tr><td><code>path</code></td><td>The WordPress root on the server.</td></tr>
+            <tr><td><code>url</code></td><td>The public URL, used to check the site after a deploy.</td></tr>
+            <tr><td><code>canonical</code></td><td>Which side holds the real content: <code>remote</code> (default) or <code>local</code>. Pushing the database or uploads is only allowed onto a <code>local</code>-canonical environment.</td></tr>
+            <tr><td><code>excludes</code></td><td>Upload folders to skip when syncing, e.g. <code>["videos"]</code>.</td></tr>
+          </tbody>
+        </table>
+        <div class="note">
+          <strong>Coming from <code>tools/env/*.env</code>?</strong> <code>brmbh update</code> moves those files into <code>brmbh.local.json</code> and gitignores it. The files are read as data, never executed.
+        </div>
+
+        <h2 id="deploy">deploy <span class="lvl" data-lvl="2">L2</span></h2>
+        <p>Deploy a commit of the theme to an environment. The same command runs on a laptop and in CI.</p>
+        <pre class="ink" data-copy="npx brmbh deploy staging">npx brmbh deploy staging            <span class="dim"># dry run: lists new, changed and deleted files</span>
+npx brmbh deploy staging --apply    <span class="dim"># send, then check the live site</span></pre>
+        <ol>
+          <li><strong>A commit, not a working tree.</strong> Uncommitted changes stop the deploy.</li>
+          <li><strong>Build</strong> with <code>npm run build</code>.</li>
+          <li><strong>Stage</strong> the tracked files plus the build output (<code>deploy.include</code>), without development files (<code>assets/src</code>, <code>package.json</code>, <code>AGENTS.md</code>, the config files).</li>
+          <li><strong>Dry run</strong> by default. Only <code>--apply</code> sends; files removed in git are removed on the server.</li>
+          <li><strong>Verify.</strong> The live <code>brmbh-deploy.json</code> must carry the commit just sent, and the home page must load without a PHP error.</li>
+        </ol>
+        <table>
+          <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>--apply</code></td><td>Send the files. Without it nothing is sent.</td></tr>
+            <tr><td><code>--skip-build</code></td><td>Deploy the build output as it is.</td></tr>
+            <tr><td><code>--allow-dirty</code></td><td>Deploy uncommitted changes; recorded as dirty in the stamp.</td></tr>
+          </tbody>
+        </table>
+        <p>The <code>class</code> is <code>would_deploy</code>, <code>up_to_date</code>, <code>deployed</code> or <code>verify_failed</code> (the files were sent, but the live check failed). A site behind a password (401/403) is reported as not verified.</p>
 
         <h2 id="db">db <span class="lvl" data-lvl="2">L2</span></h2>
-        <p>Migrate the database between environments. Wraps <code>tools/db-pull.sh</code> / <code>tools/db-push.sh</code>.</p>
-        <pre class="ink" data-copy="brmbh db pull staging">brmbh db pull &lt;staging|prod&gt;     <span class="dim"># remote → local</span>
-brmbh db push &lt;staging|prod&gt;     <span class="dim"># local → remote (guarded)</span></pre>
+        <p>Move the database between this machine and an environment. Code flows up, content flows down: <code>canonical</code> decides which way is allowed.</p>
+        <pre class="ink" data-copy="npx brmbh db pull production">npx brmbh db pull production    <span class="dim"># remote → local</span>
+npx brmbh db push staging       <span class="dim"># local → remote, only onto canonical: "local"</span></pre>
+        <div class="note">
+          <strong>Backup first, every time.</strong> A pull backs up the local database to <code>.brmbh/backups/</code>, a push backs up the remote one to <code>~/.brmbh-backups/</code> on the server. In <code>--json</code> mode a push needs <code>--yes</code>, so an agent asks you before it overwrites a database.
+        </div>
+
+        <h2 id="uploads">uploads <span class="lvl" data-lvl="2">L2</span></h2>
+        <p>Sync <code>wp-content/uploads</code> with the same direction rules.</p>
+        <pre class="ink" data-copy="npx brmbh uploads pull production">npx brmbh uploads pull production                  <span class="dim"># adds what's missing locally</span>
+npx brmbh uploads pull production --exclude=videos  <span class="dim"># skip a folder this run</span>
+npx brmbh uploads pull production --delete          <span class="dim"># mirror exactly</span>
+npx brmbh uploads push staging --yes                <span class="dim"># mirror local onto a local-canonical environment</span></pre>
+
+        <h2 id="env">env <span class="lvl" data-lvl="1">L1</span></h2>
+        <p>List the environments and where each is defined, or run a tool against one.</p>
+        <pre class="ink" data-copy="npx brmbh env">npx brmbh env                                  <span class="dim"># list</span>
+npx brmbh env run production version-check     <span class="dim"># compare WordPress, PHP, plugin and theme versions with local</span>
+npx brmbh env run staging db-verify            <span class="dim"># test both database connections, change nothing</span>
+npx brmbh env run staging sync-plugins         <span class="dim"># install the locally active plugins there</span></pre>
+
+        <h2 id="ci">add ci <span class="lvl" data-lvl="3">L3</span></h2>
+        <p>Optional. Writes a GitHub Actions workflow that runs the same <code>brmbh deploy</code>, started by hand from the Actions tab. Nothing is set up by default; where and how a site deploys is up to you and your agent.</p>
+        <pre class="ink" data-copy="npx brmbh add ci github">npx brmbh add ci github    <span class="dim"># writes .github/workflows/deploy.yml</span></pre>
 
         <!-- ============================ CONCEPTS =========================== -->
 
@@ -275,7 +341,7 @@ brmbh &lt;command&gt; --help   <span class="dim"># human help for one command</s
         <p>The CLI itself is a thin code-first runtime: a dispatcher with dual-mode output, the level system, schema/help introspection, and a stable error contract. It has zero runtime dependencies.</p>
         <pre class="ink">bin/brmbh.js                         <span class="dim"># entrypoint</span>
 src/tool.js                          <span class="dim"># dispatcher: dual-mode, levels, schema</span>
-src/commands/*.js                    <span class="dim"># create, add, dev, doctor, deploy, db</span>
+src/commands/*.js                    <span class="dim"># create, add, dev, doctor, update, deploy, db, uploads, env</span>
 templates/{block,cpt}/*              <span class="dim"># scaffold templates</span></pre>
 
         <h2 id="faq">FAQ</h2>
@@ -286,7 +352,7 @@ templates/{block,cpt}/*              <span class="dim"># scaffold templates</spa
         <h3>Which AI editors are supported?</h3>
         <p>Claude Code, Cursor, and Windsurf get generated wrappers; skills are authored once in <code>AGENTS/</code>. With <code>npx skills add brmbh/wordpress</code> the skills also install in 30+ other agents.</p>
         <h3>Is it tied to a specific host?</h3>
-        <p>No. <code>deploy</code> and <code>db</code> wrap the theme's own scripts, which you configure per environment in <code>tools/env/</code>.</p>
+        <p>No. Environments are SSH targets you name in <code>brmbh.json</code>; any host with SSH and rsync works, from a laptop or from CI.</p>
 
         <div class="note">
           Still stuck? Open an issue on
