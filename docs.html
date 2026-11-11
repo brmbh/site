@@ -238,6 +238,7 @@ npx brmbh update --dry-run  <span class="dim"># show what would change, write no
             <tr><td><code>excludes</code></td><td>Upload folders to skip when syncing, e.g. <code>["videos"]</code>.</td></tr>
           </tbody>
         </table>
+        <p><strong>How the commands reach a server:</strong> the CLI reads the environment, logs in with your own SSH setup (<code>~/.ssh/config</code>, ssh-agent or a CI secret) and runs WP-CLI there. The server needs SSH access, WP-CLI as <code>wp</code>, and rsync for <code>deploy</code> and <code>uploads</code>. Paths with spaces are fine.</p>
         <div class="note">
           <strong>Coming from <code>tools/env/*.env</code>?</strong> <code>brmbh update</code> moves those files into <code>brmbh.local.json</code> and gitignores it. The files are read as data, never executed.
         </div>
@@ -251,6 +252,7 @@ npx brmbh deploy staging --apply    <span class="dim"># send, then check the liv
           <li><strong>Build</strong> with <code>npm run build</code>.</li>
           <li><strong>Stage</strong> the tracked files plus the build output (<code>deploy.include</code>), without development files (<code>assets/src</code>, <code>package.json</code>, <code>AGENTS.md</code>, the config files).</li>
           <li><strong>Dry run</strong> by default. Only <code>--apply</code> sends; files removed in git are removed on the server.</li>
+          <li><strong>Flush</strong> the object cache on the server (<code>wp cache flush</code>).</li>
           <li><strong>Verify.</strong> The live <code>brmbh-deploy.json</code> must carry the commit just sent, and the home page must load without a PHP error.</li>
         </ol>
         <table>
@@ -265,18 +267,46 @@ npx brmbh deploy staging --apply    <span class="dim"># send, then check the liv
 
         <h2 id="db">db <span class="lvl" data-lvl="2">L2</span></h2>
         <p>Move the database between this machine and an environment. Code flows up, content flows down: <code>canonical</code> decides which way is allowed.</p>
-        <pre class="ink" data-copy="npx brmbh db pull production">npx brmbh db pull production    <span class="dim"># remote → local</span>
-npx brmbh db push staging       <span class="dim"># local → remote, only onto canonical: "local"</span></pre>
+        <pre class="ink" data-copy="npx brmbh db pull production">npx brmbh db pull production       <span class="dim"># server → this machine</span>
+npx brmbh db push staging --yes    <span class="dim"># this machine → server, only onto canonical: "local"</span></pre>
+        <p>Both directions need <code>local.url</code> in <code>brmbh.local.json</code>: every URL in the database is rewritten to it, so it is never guessed.</p>
+
+        <h3>What <code>db pull</code> does</h3>
+        <ol>
+          <li><strong>Checks both connections</strong> with <code>wp db check</code>, locally and over SSH. If one fails, nothing has changed yet.</li>
+          <li><strong>Backs up the local database</strong> to <code>.brmbh/backups/local-before-&lt;env&gt;-&lt;time&gt;.sql.gz</code> in the theme (gitignored).</li>
+          <li><strong>Copies the database:</strong> <code>wp db export</code> on the server streams over SSH straight into <code>wp db import</code> on this machine. No dump file stays on the server.</li>
+          <li><strong>Rewrites URLs</strong> from the server's <code>url</code> to <code>local.url</code> in all tables, for <code>https://</code> and <code>http://</code>, then once more to catch leftovers. Serialized data (widgets, field values) stays valid.</li>
+          <li><strong>Repairs the site:</strong> sets <code>siteurl</code> and <code>home</code>, activates the local theme, flushes the cache.</li>
+          <li><strong>Matches plugins:</strong> installs exactly the plugin versions the server runs, never newer ones. A premium plugin that isn't on wordpress.org is named, so you copy it yourself.</li>
+          <li><strong>Runs pending database upgrades</strong> (<code>wp core update-db</code>) and reports any version drift between this machine and the server.</li>
+        </ol>
+
+        <h3>What <code>db push</code> does</h3>
+        <ol>
+          <li><strong>Checks the direction:</strong> refused unless the environment is <code>"canonical": "local"</code>. The default is <code>remote</code>, so content entered on a live site is never overwritten by accident.</li>
+          <li><strong>Asks first.</strong> In the terminal it asks for confirmation; an agent (<code>--json</code>) gets <code>confirm_required</code> and has to ask you before it runs again with <code>--yes</code>.</li>
+          <li><strong>Checks both connections.</strong></li>
+          <li><strong>Backs up the server's database</strong> to <code>~/.brmbh-backups/&lt;env&gt;-before-push-&lt;time&gt;.sql.gz</code> on the server, outside the web root. An empty backup stops the push.</li>
+          <li><strong>Copies the database:</strong> exports locally, uploads it to a temporary file on the server, imports it and deletes the file.</li>
+          <li><strong>Rewrites URLs</strong> from <code>local.url</code> to the server's <code>url</code>, and repairs <code>siteurl</code>, <code>home</code>, theme, cache and database upgrades on the server.</li>
+        </ol>
         <div class="note">
-          <strong>Backup first, every time.</strong> A pull backs up the local database to <code>.brmbh/backups/</code>, a push backs up the remote one to <code>~/.brmbh-backups/</code> on the server. In <code>--json</code> mode a push needs <code>--yes</code>, so an agent asks you before it overwrites a database.
+          <strong>Undo:</strong> import the backup on the side that was overwritten, e.g. <code>wp db import local-before-production-….sql.gz</code> after unzipping it.
         </div>
 
         <h2 id="uploads">uploads <span class="lvl" data-lvl="2">L2</span></h2>
-        <p>Sync <code>wp-content/uploads</code> with the same direction rules.</p>
+        <p>Sync <code>wp-content/uploads</code> with rsync over SSH, with the same direction rules as <code>db</code>.</p>
         <pre class="ink" data-copy="npx brmbh uploads pull production">npx brmbh uploads pull production                  <span class="dim"># adds what's missing locally</span>
 npx brmbh uploads pull production --exclude=videos  <span class="dim"># skip a folder this run</span>
 npx brmbh uploads pull production --delete          <span class="dim"># mirror exactly</span>
-npx brmbh uploads push staging --yes                <span class="dim"># mirror local onto a local-canonical environment</span></pre>
+npx brmbh uploads push staging --dry-run            <span class="dim"># show what would change</span>
+npx brmbh uploads push staging --yes                <span class="dim"># mirror local onto the server</span></pre>
+        <ul>
+          <li><strong>pull</strong> only adds and updates files. Files that exist only on this machine stay, unless you pass <code>--delete</code>.</li>
+          <li><strong>push</strong> makes the server's uploads an exact copy of yours, so files that exist only on the server are removed. First it lists how many files are new, replaced and deleted (with the names of deleted ones). Then it sends, and every file it replaces or deletes is moved to <code>~/.brmbh-backups/uploads-&lt;env&gt;-before-push-&lt;time&gt;/</code> on the server instead of being lost.</li>
+          <li>Folders that never sync (a backup plugin's storage, large videos) go in the environment's <code>excludes</code>; <code>--exclude</code> adds more for one run.</li>
+        </ul>
 
         <h2 id="env">env <span class="lvl" data-lvl="1">L1</span></h2>
         <p>List the environments and where each is defined, or run a tool against one.</p>
