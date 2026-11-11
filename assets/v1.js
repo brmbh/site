@@ -45,7 +45,7 @@
   FLOW.forEach(i => {
     const p = PARTS[i], el = document.createElement('div');
     el.className = 'piece';
-    el.innerHTML = `<canvas aria-hidden="true"></canvas><div class="piece__row">${glyph(p.k, p.c, p.r)}<h3>${p.role}</h3></div><p>${p.job}</p>`;
+    el.innerHTML = `<canvas aria-hidden="true"></canvas><div class="piece__row">${glyph(p.k, p.c, p.r)}<h3>${p.role}</h3></div>`;
     piecesEl.appendChild(el);
     tileCanvases[i] = el.querySelector('canvas');
   });
