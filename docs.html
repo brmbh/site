@@ -44,6 +44,7 @@
         <a href="#add-skills">add skills</a>
         <a href="#dev">dev</a>
         <a href="#doctor">doctor</a>
+        <a href="#update">update</a>
         <a href="#deploy">deploy</a>
         <a href="#db">db</a>
         <p class="mono">Concepts</p>
@@ -188,6 +189,23 @@ brmbh doctor --json</pre>
     { <span class="b">"name"</span>: <span class="b">"build"</span>, <span class="b">"status"</span>: <span class="b">"warn"</span> }
   ]
 }</pre>
+
+        <h2 id="update">update <span class="lvl" data-lvl="2">L2</span></h2>
+        <p>Bring a site to the newest brmbh: update <code>@brmbh/cli</code> (commands and agent skills), replace the core in <code>inc/core/</code>, and run any migration a release ships for your own files.</p>
+        <pre class="ink" data-copy="npx brmbh update">npx brmbh update            <span class="dim"># update in range, replace inc/core/, run migrations</span>
+npx brmbh update --latest   <span class="dim"># also take a new major version</span>
+npx brmbh update --dry-run  <span class="dim"># show what would change, write nothing</span></pre>
+        <table>
+          <thead><tr><th>Part of the theme</th><th>What update does</th></tr></thead>
+          <tbody>
+            <tr><td><code>inc/core/</code> — block factory loader, SCF guard, <code>wp brmbh</code> commands</td><td>Replaced as a whole. Never edit it; extend it with hooks such as <code>brmbh/block_dirs</code>.</td></tr>
+            <tr><td>Your templates, blocks, styles, <code>inc/</code> files</td><td>Never overwritten. A release that needs a change ships a migration you review.</td></tr>
+            <tr><td>Commands and agent skills</td><td>Updated with <code>@brmbh/cli</code>.</td></tr>
+          </tbody>
+        </table>
+        <div class="note">
+          <strong>Nothing half-done.</strong> If a migration needs you first (for example a starter file you edited), <code>update</code> writes nothing and returns <code>class: "blocked"</code> with the file and the fix. <code>doctor</code> reports a missing, outdated or hand-edited core.
+        </div>
 
         <h2 id="deploy">deploy <span class="lvl" data-lvl="2">L2</span></h2>
         <p>Deploy the theme to an environment. Wraps the theme's <code>tools/deploy.sh</code>; if the deploy suite isn't present, the command explains rather than failing silently.</p>
