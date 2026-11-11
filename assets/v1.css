@@ -32,7 +32,7 @@ button { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
 
 h1, h2, h3 { font-family: var(--f-head); font-weight: 700; letter-spacing: -0.03em; line-height: 1.02; margin: 0; text-wrap: balance; }
-h1 { font-size: clamp(2rem, 4vw, 6.4rem); letter-spacing: -0.045em; line-height: 0.9; }
+h1 { font-size: clamp(2rem, 3.3vw, 5.2rem); letter-spacing: -0.045em; line-height: 0.9; }
 h2 { font-size: clamp(1.9rem, 3.8vw, 3rem); display: flex; align-items: baseline; gap: 0.5em; }
 h3 { font-size: 1.15rem; letter-spacing: -0.01em; line-height: 1.2; }
 p { margin: 0; color: var(--ink-2); max-width: 58ch; }
@@ -82,7 +82,8 @@ code { font-family: var(--f-mono); font-size: 0.88em; }
   background: var(--plane); border-radius: inherit;
 }
 /* constant boil: hero command, piece cards, the two big columns, the four start steps, the brmbh column */
-:is(.hero .cmd, .pieces .piece, #superpowers .cols--2 > .col, #start .cols--4 > .col, .compare .hl)::before { animation: squiggle 0.3s steps(1, end) infinite; }
+:is(.pieces .piece, #superpowers .cols--2 > .col, #start .cols--4 > .col, .compare .hl)::before { animation: squiggle 0.3s steps(1, end) infinite; }
+.hero .cmd::before { animation: squiggle-hot 0.3s steps(1, end) infinite; }
 .compare .hl::before { inset: -1px 0; } /* overlap rows so the column reads as one strip */
 /* boil on hover only — never on a selected/pressed/copied state */
 :is(.btn, .aud__btn, .cmd__copy, .chip, .key):is(:hover, :focus-visible):not(.is-on, .is-copied, :active)::before { animation: squiggle-hot 0.3s steps(1, end) infinite; }
@@ -182,6 +183,7 @@ code { font-family: var(--f-mono); font-size: 0.88em; }
 .sstep:hover { opacity: 0.65; }
 .sstep.is-on { opacity: 1; background: var(--s2); }
 .sstep h3 { font-size: 1.35rem; }
+.sstep .chip { justify-self: start; margin-top: 0.3rem; }
 .sstep p { font-size: 0.95rem; }
 /* editor window mockup */
 .ide { background: #141417; color: #ecebe6; border-radius: 10px; overflow: hidden; min-width: 0; box-shadow: 0 30px 60px -30px rgba(17, 17, 20, 0.55), 0 0 0 1px rgba(17, 17, 20, 0.6); }
