@@ -169,7 +169,6 @@ code { font-family: var(--f-mono); font-size: 0.88em; }
 .sstory.is-on { opacity: 1; }
 .sstory h3 { font-size: clamp(1.8rem, 3.2vw, 2.6rem); letter-spacing: -0.03em; }
 .sstory p { font-size: 1.08rem; }
-.sstory__link { font-size: 0.92rem; justify-self: start; }
 .story__stage { position: sticky; top: 0; height: 100vh; display: grid; grid-template-rows: minmax(0, 1fr) auto; padding-block: 5rem 2rem; }
 .story__stage canvas { display: block; width: 100%; height: 100%; touch-action: pan-y; cursor: grab; }
 .fly { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 5; visibility: hidden; }

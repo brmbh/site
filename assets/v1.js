@@ -8,9 +8,9 @@
 
   // the four pillars of the suite — one piece each, in mark order (TL, TR, BL, BR)
   const PARTS = [
-    { k: 'quarter',  c: 'white',  role: 'Theme',  job: 'Bootstrap 5 and Gutenberg, one base.', title: 'Bootstrap 5 ↔ Gutenberg',  text: 'Bootstrap is still a loved and used css framework. Brmbh uses the best parts so your agent can build its own class system to make sites truly unique! The design token pipeline streamlines design system conformity between wordpress gutenberg, bootstrap variables.scss and figma or any other design tool. With bootstrap utility classes, mixins, breakpoints and variables it is the perfect companion to the block builder factory.', href: 'docs.html#architecture', link: 'How it bridges' },
+    { k: 'quarter',  c: 'white',  role: 'Theme',  job: 'Bootstrap 5 and Gutenberg, one base.', title: 'Bootstrap 5 ↔ Gutenberg',  text: 'Still a loved and widely used framework. Brmbh uses the best parts so your agent can build its own class system to make sites truly unique! The design token pipeline streamlines design system conformity between wordpress gutenberg, bootstrap variables.scss and figma or any other design tool. With bootstrap utility classes, mixins, breakpoints and variables it is the perfect companion to the block builder factory.', href: 'docs.html#architecture', link: 'How it bridges' },
     { k: 'circle',   c: 'red',    role: 'SCF',    job: 'Blocks on free Secure Custom Fields.', title: 'SCF block factory',        text: 'Secure Custom Fields now ships with repeater-fields for free. This makes the block factory the most capable design to pagebuilder pipeline out there. Point a figma design to your agent and it spins up a new block that you can use in gutenberg. The code is clean and always adjustable.', href: 'docs.html#add-block', link: 'Build a block' },
-    { k: 'quarter',  c: 'blue',   role: 'CLI',    job: 'Scaffold, deploy, sync.',             title: 'One CLI, scaffold to deploy', text: 'WordPress already ships a powerful wp-cli. But our CLI helps your Agent to streamline deterministic tool calls which reduce token cost and keeps the quality of the codebase high. Run the CLI yourself or talk with your agent and it will know what to do.', href: 'docs.html#agent-mode', link: 'JSON mode', r: 1 },
+    { k: 'quarter',  c: 'blue',   role: 'CLI',    job: 'Scaffold, deploy, sync.',             title: 'One CLI for humans and agents.', text: 'WordPress already ships a powerful wp-cli. But our CLI helps your Agent to streamline deterministic tool calls, which reduces token cost and keeps the quality of the codebase high. Run the CLI yourself or talk with your agent and it will know what to do.', href: 'docs.html#agent-mode', link: 'JSON mode', r: 1 },
     { k: 'triangle', c: 'yellow', role: 'Skills', job: 'What your agent already knows.',      title: 'Agent skills built in',    text: 'Skills teach your Agents how to use WordPress and this custom theme with its scripts, cli and principles. The skills work in combination with the CLI to keep output predictable and token costs low.', href: 'docs.html#agent-mode', link: 'For agents' },
   ];
   // the workflow order: skills → theme → SCF → CLI. Columns, keys, prompts and story steps all follow it;
@@ -53,7 +53,7 @@
   FLOW.forEach((i, n) => {
     const p = PARTS[i], el = document.createElement('article');
     el.className = 'sstory'; el.dataset.state = n + 1;
-    el.innerHTML = `<h3>${p.title}</h3><p>${p.text}</p><a class="sstory__link" href="${p.href}">${p.link} →</a>`;
+    el.innerHTML = `<h3>${p.title}</h3><p>${p.text}</p>`;
     stepsEl.appendChild(el);
   });
   const storySteps = [...stepsEl.children];
