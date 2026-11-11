@@ -5,11 +5,19 @@ Marketing site for the [brmbh agentic WordPress suite](https://github.com/brmbh/
 Static HTML/CSS/JS. No build step, no dependencies — open `index.html` to work on it.
 
 ```
-index.html      the landing page
-docs.html       command reference
-assets/         styles.css, main.js, logos/
-deploy.sh       rsync to all-inkl
+index.html             the landing page (v1 shape-sorter brand)
+docs.html              command reference, same tokens
+assets/brand.js        mark geometry + palette, the one source
+assets/v1.css          tokens and styles for both pages
+assets/v1.js           landing page: Zdog tray, story, scenes
+assets/docs.js         docs page: marks, copy buttons, contents
+assets/brand/          frozen logos, favicons, og image (bun tools/brand-assets.mjs)
+assets/fonts/          licensed web fonts, gitignored: copy them in locally
+deploy.sh              hands off to infra-check
 ```
+
+Serve locally with any static server (fonts load via `@font-face`, so `file://` works for
+layout only).
 
 ## Deploying
 
@@ -21,12 +29,13 @@ https://wordpress.brombach.de/
 ```
 
 ```bash
-./deploy.sh          # dry run — shows the diff, writes nothing
-./deploy.sh --live   # upload
+./deploy.sh            # dry run: shows new/changed/deleted, writes nothing
+./deploy.sh --apply    # send + verify
 ```
 
-rsync over the `allinkl` SSH alias. `--delete` is destructive, so the script refuses to run
-unless the target is the `wordpress.brombach.de` vhost.
+`deploy.sh` runs `bun infra.ts deploy wordpress-brombach-de` from `infra-check`, which deploys
+`main` (index.html, docs.html, assets/) with its own restricted key and checks the title after.
+The fonts are not in git, so they must sit in `assets/fonts/` on the machine that deploys.
 
 ### Why its own vhost
 
