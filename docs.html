@@ -78,10 +78,6 @@
         <h2 id="install">Installation</h2>
         <p>You don't install brmbh globally — you run it on demand to scaffold a project:</p>
         <pre class="ink" data-copy="npx @brmbh/cli create my-site"><span class="dim"># scaffold a new theme into ./my-site</span>
-npx @brmbh/cli create my-site
-
-<span class="dim"># equivalent</span>
-npx @brmbh/cli create my-site
 npx @brmbh/cli create my-site</pre>
         <p>To use the lifecycle commands inside a project, run them through <code>npx</code> or add a script:</p>
         <pre class="ink" data-copy="npx @brmbh/cli doctor">npx @brmbh/cli doctor
@@ -102,8 +98,7 @@ npx @brmbh/cli add block hero</pre>
 
         <h2 id="create">create <span class="lvl" data-lvl="3">L3</span></h2>
         <p>Scaffold a new brmbh theme into a folder: materialize the theme, install dependencies, build assets, wire the agent skills, check for SCF, and activate the theme when running inside a WordPress install.</p>
-        <pre class="ink" data-copy="npx @brmbh/cli create [name] [flags]">npx @brmbh/cli create [name] [flags]
-create-brmbh [name] [flags]</pre>
+        <pre class="ink" data-copy="npx @brmbh/cli create [name] [flags]">npx @brmbh/cli create [name] [flags]</pre>
         <table>
           <thead><tr><th>Flag</th><th>Description</th></tr></thead>
           <tbody>
@@ -260,18 +255,18 @@ brmbh &lt;command&gt; --help   <span class="dim"># human help for one command</s
           <li><strong>Skill (reasoning):</strong> your agent reads the design, infers the field schema, and fills <code>fields.php</code> + <code>template.php</code> using Bootstrap utilities and design tokens.</li>
         </ol>
         <p>The CLI itself is a thin code-first runtime: a dispatcher with dual-mode output, the level system, schema/help introspection, and a stable error contract. It has zero runtime dependencies.</p>
-        <pre class="ink">bin/brmbh.js · bin/create-brmbh.js   <span class="dim"># entrypoints</span>
+        <pre class="ink">bin/brmbh.js                         <span class="dim"># entrypoint</span>
 src/tool.js                          <span class="dim"># dispatcher: dual-mode, levels, schema</span>
 src/commands/*.js                    <span class="dim"># create, add, dev, doctor, deploy, db</span>
 templates/{block,cpt}/*              <span class="dim"># scaffold templates</span></pre>
 
         <h2 id="faq">FAQ</h2>
         <h3>Do I need to install the CLI globally?</h3>
-        <p>No. Run it with <code>npx</code> / <code>npm create</code>. Nothing is installed globally.</p>
+        <p>No. Run it with <code>npx</code>. Nothing is installed globally.</p>
         <h3>Can I use it offline?</h3>
         <p>Yes — pass <code>--from &lt;local-checkout&gt;</code> to <code>create</code> to copy the theme from disk instead of cloning.</p>
         <h3>Which AI editors are supported?</h3>
-        <p>Claude Code, Cursor, and Windsurf. Skills are authored once in <code>AGENTS/</code> and wrappers are generated for each.</p>
+        <p>Claude Code, Cursor, and Windsurf get generated wrappers; skills are authored once in <code>AGENTS/</code>. With <code>npx skills add brmbh/wordpress</code> the skills also install in 30+ other agents.</p>
         <h3>Is it tied to a specific host?</h3>
         <p>No. <code>deploy</code> and <code>db</code> wrap the theme's own scripts, which you configure per environment in <code>tools/env/</code>.</p>
 
