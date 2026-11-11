@@ -13,7 +13,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://wordpress.brombach.de/" />
   <meta property="og:title" content="brmbh — Your agents run WordPress." />
-  <meta property="og:description" content="Brmbh agentic suite was designed to run WordPress end to end without abstraction. It empowers agents to create, update, deploy and grow and much more!" />
+  <meta property="og:description" content="Brmbh agentic suite is designed to run WordPress end to end without abstraction. It empowers agents to create, update, deploy, grow and much more!" />
   <meta property="og:image" content="https://wordpress.brombach.de/assets/brand/og.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -63,7 +63,7 @@
     <div class="wrap hero">
       <div class="hero__copy">
         <h1>Your agents run WordPress.</h1>
-        <p class="lead">Brmbh agentic suite was designed to run WordPress end to end without abstraction. It empowers agents to create, update, deploy and grow and much more!</p>
+        <p class="lead">Brmbh agentic suite is designed to run WordPress end to end without abstraction. It empowers agents to create, update, deploy, grow and much more!</p>
 
         <div class="aud" role="tablist" aria-label="Install for">
           <button class="aud__btn" role="tab" data-aud="humans" aria-selected="false">For humans</button>
@@ -105,7 +105,7 @@
   <section class="band band--2 intro" id="pieces">
     <div class="wrap">
       <div class="head">
-        <h2><span class="mk" data-glyph="quarter:white"></span>What we ship</h2>
+        <h2><span class="mk" data-glyph="quarter:white"></span>What it ships</h2>
         <p class="lead">Four pieces, one contract: theme, blocks, commands, skills. Your agent never leaves the stack — it scaffolds, builds, deploys and syncs without plugin pile or staging detour. Scroll, and they land in the tray.</p>
       </div>
       <div class="pieces" data-pieces></div>
@@ -241,19 +241,63 @@
           <div class="pair" aria-hidden="true"><span data-glyph="quarter:white"></span><span data-glyph="circle:red"></span></div>
           <h3>Server and client</h3>
           <p>Vanilla PHP and a real JS build — no Blade, no black box. So one agent writes <strong>both halves</strong>: the PHP on the server and the JavaScript in the browser. Front to back, same conversation.</p>
-          <ul class="kv">
-            <li><span class="mono">server</span> SCF blocks · CPTs · <code>template.php</code> · hooks</li>
-            <li><span class="mono">client</span> GSAP · Bootstrap JS · interactions · the build</li>
-          </ul>
         </div>
         <div class="col col--big">
           <div class="pair" aria-hidden="true"><span data-glyph="quarter:blue:1"></span><span data-glyph="triangle:yellow"></span></div>
           <h3>wp-cli as a Content MCP</h3>
           <p>WordPress ships <code>wp-cli</code> — a full, scriptable backend. brmbh wraps it, so your agent can <strong>run the CMS like an MCP</strong>: create content, manage plugins, query the database, move environments around.</p>
-          <ul class="kv">
-            <li><span class="mono">read</span> query posts · options · plugin and version drift</li>
-            <li><span class="mono">write</span> create content · activate plugins · DB pull/push</li>
-          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- updates -->
+  <section class="band" id="update">
+    <div class="wrap">
+      <div class="head">
+        <h2>The core stays up to date.</h2>
+      </div>
+      <div class="cols cols--2">
+        <div class="col col--big">
+          <div class="pair" aria-hidden="true"><span data-glyph="circle:white"></span><span data-glyph="quarter:yellow:2"></span></div>
+          <h3>One command</h3>
+          <p><code>npx brmbh update</code> brings the CLI, the agent skills and the core of the theme (block factory, SCF guard, <code>wp brmbh</code> commands) to the newest version.</p>
+        </div>
+        <div class="col col--big">
+          <div class="pair" aria-hidden="true"><span data-glyph="quarter:blue:1"></span><span data-glyph="circle:red"></span></div>
+          <h3>Your code stays yours</h3>
+          <p>Templates, blocks and styles are <strong>never overwritten</strong>. When a release needs a change in your files, it comes as a migration that is shown first. If one can't run cleanly, nothing is written.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- environments + deploys -->
+  <section class="band band--2" id="ship">
+    <div class="wrap">
+      <div class="head">
+        <h2>No more environment hassle.</h2>
+      </div>
+      <div class="cols cols--2">
+        <div class="col col--big">
+          <div class="pair" aria-hidden="true"><span data-glyph="triangle:yellow"></span><span data-glyph="quarter:white:3"></span></div>
+          <h3>Environments</h3>
+          <p>Staging, production or any other name: each environment is a few lines in <code>brmbh.json</code> instead of a shell script per server. Hosts that should stay out of git go in <code>brmbh.local.json</code>. Any host with SSH and WP-CLI works, from your laptop or from CI.</p>
+        </div>
+        <div class="col col--big">
+          <div class="pair" aria-hidden="true"><span data-glyph="triangle:red"></span><span data-glyph="circle:white"></span></div>
+          <h3>Files</h3>
+          <p><code>npx brmbh deploy production</code> ships a <strong>commit</strong>, not a working tree, with the build output and without dev files. A dry run lists every file first, and after <code>--apply</code> the live site has to show that commit.</p>
+        </div>
+        <div class="col col--big">
+          <div class="pair" aria-hidden="true"><span data-glyph="circle:blue"></span><span data-glyph="quarter:white"></span></div>
+          <h3>Database</h3>
+          <p><code>npx brmbh db pull production</code> copies the live database to your machine and rewrites every URL to your local site, serialized data included. Plugins are matched to the versions the server runs. Every import is backed up first, and content only flows down unless the environment allows a push.</p>
+        </div>
+        <div class="col col--big">
+          <div class="pair" aria-hidden="true"><span data-glyph="quarter:red:2"></span><span data-glyph="triangle:white"></span></div>
+          <h3>Uploads</h3>
+          <p><code>npx brmbh uploads pull production</code> brings the media library down and only adds what is missing. A push shows its changes first and keeps every replaced or deleted file in a backup on the server. Folders like videos can be skipped.</p>
         </div>
       </div>
     </div>
@@ -295,7 +339,7 @@
         <div class="col"><h3>Themes folder</h3><button class="chip" type="button" data-copy="cd wp-content/themes">cd wp-content/themes</button></div>
         <div class="col"><h3>Scaffold</h3><button class="chip" type="button" data-copy="npx @brmbh/cli create my-theme">npx @brmbh/cli create my-theme</button></div>
         <div class="col"><h3>Ask your agent</h3><p>“Create a hero block from this Figma frame.”</p></div>
-        <div class="col"><h3>Ship</h3><button class="chip" type="button" data-copy="brmbh deploy staging">brmbh deploy staging</button></div>
+        <div class="col"><h3>Ship</h3><button class="chip" type="button" data-copy="npx brmbh deploy staging">npx brmbh deploy staging</button></div>
       </div>
       <div class="actions">
         <a class="btn" href="docs.html">Read the docs</a>

@@ -76,13 +76,15 @@ code { font-family: var(--f-mono); font-size: 0.88em; }
   80%  { filter: url(#sqh-5); }
   100% { filter: url(#sqh-1); }
 }
-:is(.btn, .aud__btn, .cmd, .cmd__copy, .chip, .key, .piece, .kv li, .col, .compare .hl) { position: relative; isolation: isolate; background: none; }
-:is(.btn, .aud__btn, .cmd, .cmd__copy, .chip, .key, .piece, .kv li, .col, .compare .hl)::before {
+:is(.btn, .aud__btn, .cmd, .cmd__copy, .chip, .key, .piece, .kv li, .col, .sstep, .compare .hl) { position: relative; isolation: isolate; background: none; }
+:is(.btn, .aud__btn, .cmd, .cmd__copy, .chip, .key, .piece, .kv li, .col, .sstep, .compare .hl)::before {
   content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background: var(--plane); border-radius: inherit;
 }
-/* constant boil: hero command, piece cards, the two big columns, the four start steps, the brmbh column */
-:is(.pieces .piece, #superpowers .cols--2 > .col, #start .cols--4 > .col, .compare .hl)::before { animation: squiggle 0.3s steps(1, end) infinite; }
+/* constant boil on every surface: piece cards, every column, their key/value rows, the active step, the brmbh column */
+:is(.pieces .piece, .cols > .col, .col .kv li, .sstep.is-on, .compare .hl)::before { animation: squiggle 0.3s steps(1, end) infinite; }
+/* big surfaces (columns, piece cards): the calm boil is lost on their size, so they boil like the hero command */
+:is(.cols > .col--big, .pieces .piece)::before { animation-name: squiggle-hot; }
 .hero .cmd::before { animation: squiggle-hot 0.3s steps(1, end) infinite; }
 .compare .hl::before { inset: -1px 0; } /* overlap rows so the column reads as one strip */
 /* boil on hover only — never on a selected/pressed/copied state */
@@ -178,9 +180,9 @@ code { font-family: var(--f-mono); font-size: 0.88em; }
 .scrolly__pin { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; }
 .scrolly__inner { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); align-items: center; width: 100%; }
 .scrolly__steps { display: grid; gap: 2px; }
-.sstep { text-align: left; background: transparent; border: 0; padding: 1.1rem 1.3rem; display: grid; gap: 0.4rem; cursor: pointer; opacity: 0.35; transition: opacity 0.4s ease, background 0.4s ease; }
+.sstep { --plane: transparent; text-align: left; background: none; border: 0; padding: 1.1rem 1.3rem; display: grid; gap: 0.4rem; cursor: pointer; opacity: 0.35; transition: opacity 0.4s ease, background 0.4s ease; }
 .sstep:hover { opacity: 0.65; }
-.sstep.is-on { opacity: 1; background: var(--s2); }
+.sstep.is-on { opacity: 1; --plane: var(--s2); }
 .sstep h3 { font-size: 1.35rem; }
 .sstep .chip { justify-self: start; margin-top: 0.3rem; }
 .sstep p { font-size: 0.95rem; }
@@ -330,7 +332,7 @@ code { font-family: var(--f-mono); font-size: 0.88em; }
   .scrolly { height: auto; }
   .scrolly__pin { position: static; height: auto; display: block; }
   .scrolly__inner { grid-template-columns: minmax(0, 1fr); }
-  .sstep { opacity: 1; background: transparent; }
+  .sstep, .sstep.is-on { opacity: 1; --plane: transparent; }
   .cols--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 620px) {
@@ -348,5 +350,5 @@ code { font-family: var(--f-mono); font-size: 0.88em; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  :is(.btn, .aud__btn, .cmd, .cmd__copy, .chip, .key, .piece, .kv li, .col, .compare .hl)::before, .tear { animation: none !important; }
+  :is(.btn, .aud__btn, .cmd, .cmd__copy, .chip, .key, .piece, .kv li, .col, .sstep, .compare .hl)::before, .tear { animation: none !important; }
 }
